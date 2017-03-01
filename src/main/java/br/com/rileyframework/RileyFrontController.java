@@ -1,13 +1,10 @@
 package br.com.rileyframework;
 
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -17,26 +14,21 @@ import javax.servlet.http.HttpServletResponse;
 
 import br.com.rileyframework.annotations.Get;
 import br.com.rileyframework.annotations.Rest;
+import br.com.rileyframework.utils.BasePackageMemory;
 
 public class RileyFrontController extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
-	private List<HandlerMapping> mappings;
-
-	private Map<String, HandlerMapping> keyValue;
-
+	private RileyFramework rileyFramework = new RileyFramework();
+	
 	@Override
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
+		String basePackage = BasePackageMemory.getPackageInMemory(new File("basepackage.txt"));
 		try {
-			mappings = new ArrayList<HandlerMapping>();
-			keyValue = new HashMap<String, HandlerMapping>();
-			
-			RileyInit.init(mappings);
-			for (HandlerMapping mapping : mappings) {
-				keyValueMappings(mapping.getAction(), mapping);
-			}
+			rileyFramework.handlerMappings(basePackage);
+			System.out.println(rileyFramework.getKeyValue().size());
 		} catch (InstantiationException | IllegalAccessException | InvocationTargetException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -65,7 +57,7 @@ public class RileyFrontController extends HttpServlet {
 	private void doProcess(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, ClassNotFoundException {
 
 		final String servletPath = req.getServletPath();
-		HandlerMapping handlerMapping = keyValue.get(servletPath);
+		HandlerMapping handlerMapping = rileyFramework.getKeyValue().get(servletPath);
 		
 		if (handlerMapping != null) {
 			Class clazzName = Class.forName(handlerMapping.getControllerAction());
@@ -94,10 +86,5 @@ public class RileyFrontController extends HttpServlet {
 		Object object = ctor.newInstance();
 		return object;
 	}
-
-	public void keyValueMappings(String action, HandlerMapping handlerMapping) {
-		keyValue.put(action, handlerMapping);
-	}
-
 
 }

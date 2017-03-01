@@ -9,12 +9,16 @@ import org.reflections.Reflections;
 
 import br.com.rileyframework.annotations.Get;
 import br.com.rileyframework.annotations.Rest;
+import br.com.rileyframework.utils.BasePackageMemory;
 
 public class RileyInit {
 	
-	
-	public static void init(List<HandlerMapping> mappings) throws InstantiationException, IllegalAccessException, InvocationTargetException, ClassNotFoundException {
-		Reflections reflections = new Reflections("br.com.rileyframework.controller");
+	public static void init(Class baseClass, List<HandlerMapping> mappings) throws InstantiationException, IllegalAccessException, InvocationTargetException, ClassNotFoundException {
+		
+		Reflections reflections = new Reflections(baseClass.getPackage());
+		
+		BasePackageMemory.savePackageInMemory(baseClass.getName());
+		
 		Set<Class<?>> annotated = reflections.getTypesAnnotatedWith(Rest.class);
 
 		for (Class<?> clazz : annotated) {

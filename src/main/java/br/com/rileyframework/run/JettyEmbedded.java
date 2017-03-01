@@ -26,8 +26,7 @@ public class JettyEmbedded extends AbstractHandler {
 		response.getWriter().println("<h1>Hello World</h1>");
 	}
 
-	public static void main(String[] args) throws Exception
-	{
+	public static void init(String[] args) throws Exception	{
 		System.setProperty("org.apache.jasper.compiler.disablejsr199", "true");
 
 		Server server = new Server(8080);
@@ -35,9 +34,9 @@ public class JettyEmbedded extends AbstractHandler {
 		HandlerList handlers = new HandlerList();
 
 		ServletContextHandler sch = new ServletContextHandler(ServletContextHandler.SESSIONS);
-        sch.setContextPath("/");
-		
-        sch.addServlet(new ServletHolder(new RileyFrontController()), "/");
+		sch.setContextPath("/");
+
+		sch.addServlet(new ServletHolder(new RileyFrontController()), "/");
 
 		handlers.setHandlers(new Handler[] { sch, new DefaultHandler() });
 		server.setHandler(handlers);
