@@ -25,6 +25,7 @@ public class RileyFrontController extends HttpServlet {
 	@Override
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
+	
 		String basePackage = BasePackageMemory.getPackageInMemory(new File("basepackage.txt"));
 		try {
 			rileyFramework.handlerMappings(basePackage);

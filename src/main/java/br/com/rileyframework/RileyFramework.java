@@ -28,6 +28,7 @@ public class RileyFramework {
 		try {
 			this.mappings = new ArrayList<HandlerMapping>();
 			this.keyValue = new HashMap<String, HandlerMapping>();
+			RileyInit.init(baseClass, mappings);
 			JettyEmbedded.init(args);
 		} catch (Exception e) {
 			e.printStackTrace();
