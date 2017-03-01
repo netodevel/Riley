@@ -11,7 +11,7 @@ import br.com.rileyframework.model.Book;
 @Rest
 public class UserController {
 	
-	@Get
+	@Get("/helloworld")
 	public String getBook() {
 		Book book = new Book();
 		book.setAuthor("NetoDevel");
