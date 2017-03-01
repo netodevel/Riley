@@ -10,7 +10,7 @@ import java.io.IOException;
 public class BasePackageMemory {
 	
 	public static void savePackageInMemory(String baseClass) {
-		File f = new File("basepackage.txt");
+		File f = new File("src/main/resources/basepackage.txt");
 		try {
 			FileWriter fw = new FileWriter(f);
 			BufferedWriter bw = new BufferedWriter(fw);

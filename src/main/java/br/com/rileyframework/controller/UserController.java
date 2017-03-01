@@ -11,7 +11,7 @@ import br.com.rileyframework.model.Book;
 @Rest
 public class UserController {
 	
-	@Get("/helloworld")
+	@Get("/books")
 	public String getBook() {
 		Book book = new Book();
 		book.setAuthor("NetoDevel");
@@ -19,6 +19,5 @@ public class UserController {
 		book.setPrice(0.0d);
 		return JsonReturn.toJson(book);
 	}
-	
 	
 }

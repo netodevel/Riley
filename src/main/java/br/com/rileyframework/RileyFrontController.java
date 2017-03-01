@@ -25,11 +25,9 @@ public class RileyFrontController extends HttpServlet {
 	@Override
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
-	
-		String basePackage = BasePackageMemory.getPackageInMemory(new File("basepackage.txt"));
+		String basePackage = BasePackageMemory.getPackageInMemory(new File("src/main/resources/basepackage.txt"));
 		try {
 			rileyFramework.handlerMappings(basePackage);
-			System.out.println(rileyFramework.getKeyValue().size());
 		} catch (InstantiationException | IllegalAccessException | InvocationTargetException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -53,7 +51,6 @@ public class RileyFrontController extends HttpServlet {
 		}
 	}
 
-
 	@SuppressWarnings({"unchecked", "rawtypes" })
 	private void doProcess(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, ClassNotFoundException {
 
@@ -63,11 +60,6 @@ public class RileyFrontController extends HttpServlet {
 		if (handlerMapping != null) {
 			Class clazzName = Class.forName(handlerMapping.getControllerAction());
 			Object obj = createNewInstance(clazzName);
-			if (obj == null) {
-				System.out.println("error creating object!");
-			} else {
-				System.out.println("success!" + obj.toString());
-			}
 			Class clazz = obj.getClass();
 			if (clazz.isAnnotationPresent(Rest.class)) {
 				for (Method methods : clazz.getDeclaredMethods()) {
@@ -77,7 +69,6 @@ public class RileyFrontController extends HttpServlet {
 				}
 			}
 		}
-
 	}
 
 	@SuppressWarnings("rawtypes")
