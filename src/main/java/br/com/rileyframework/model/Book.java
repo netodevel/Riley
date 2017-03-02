@@ -5,6 +5,7 @@ package br.com.rileyframework.model;
  */
 public class Book {
 
+	private String id;
 	private String author;
     private String title;
     private Double price;
@@ -26,6 +27,12 @@ public class Book {
 	}
 	public void setPrice(Double price) {
 		this.price = price;
+	}
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
 	}
     
 }

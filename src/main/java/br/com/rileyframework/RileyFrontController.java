@@ -5,6 +5,9 @@ import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -15,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import br.com.rileyframework.annotations.Get;
 import br.com.rileyframework.annotations.Rest;
 import br.com.rileyframework.utils.BasePackageMemory;
+import br.com.rileyframework.utils.PathVariablesUtil;
 
 public class RileyFrontController extends HttpServlet {
 
@@ -26,9 +30,16 @@ public class RileyFrontController extends HttpServlet {
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
 		String basePackage = BasePackageMemory.getPackageInMemory(new File("src/main/resources/basepackage.txt"));
+
 		try {
 			rileyFramework.handlerMappings(basePackage);
-		} catch (InstantiationException | IllegalAccessException | InvocationTargetException | ClassNotFoundException e) {
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 	}
@@ -37,7 +48,15 @@ public class RileyFrontController extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		try {
 			doProcess(req, resp);
-		} catch (InstantiationException | IllegalAccessException| IllegalArgumentException | InvocationTargetException | ClassNotFoundException e) {
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 	}
@@ -46,7 +65,15 @@ public class RileyFrontController extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		try {
 			doProcess(req, resp);
-		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | ClassNotFoundException e) {
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 	}
@@ -55,17 +82,28 @@ public class RileyFrontController extends HttpServlet {
 	private void doProcess(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, ClassNotFoundException {
 
 		final String servletPath = req.getServletPath();
-		HandlerMapping handlerMapping = rileyFramework.getKeyValue().get(servletPath);
+
+		PathVariablesUtil pathVariable = new PathVariablesUtil();
+		String getActionURL = pathVariable.getActionURL(servletPath, rileyFramework.getMappings());
 		
+		System.out.println("URL DEVIDA: " + getActionURL);
+		
+		HandlerMapping handlerMapping = rileyFramework.getKeyValue().get(getActionURL);
 		if (handlerMapping != null) {
 			Class clazzName = Class.forName(handlerMapping.getControllerAction());
 			Object obj = createNewInstance(clazzName);
 			Class clazz = obj.getClass();
 			if (clazz.isAnnotationPresent(Rest.class)) {
 				for (Method methods : clazz.getDeclaredMethods()) {
-					if (methods.isAnnotationPresent(Get.class)) {
-						resp.getWriter().println(methods.invoke(obj));
-					}
+					if (methods.isAnnotationPresent(Get.class) && methods.getAnnotation(Get.class).value().equals(getActionURL)) {
+						List<String> parameters = pathVariable.getParameters(servletPath, getActionURL);
+						System.out.println("PARAMETERS: " + parameters);
+						if (parameters != null && parameters.size() > 0) {
+							resp.getWriter().println(methods.invoke(obj, parameters.toArray()).toString());
+						} else {
+							resp.getWriter().println(methods.invoke(obj));
+						}
+					} 
 				}
 			}
 		}

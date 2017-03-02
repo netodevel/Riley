@@ -20,4 +20,11 @@ public class UserController {
 		return JsonReturn.toJson(book);
 	}
 	
+	@Get("/books/{id}")
+	public String findOne(String id) {
+		Book book = new Book();
+		book.setId(id);
+		return JsonReturn.toJson(book);
+	}
+	
 }

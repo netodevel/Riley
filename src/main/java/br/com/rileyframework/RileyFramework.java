@@ -19,8 +19,8 @@ import br.com.rileyframework.utils.BasePackageMemory;
  */
 public class RileyFramework {
 	
-	private List<HandlerMapping> mappings = new ArrayList<>();
-	private Map<String, HandlerMapping> keyValue = new HashMap<>();
+	private List<HandlerMapping> mappings = new ArrayList<HandlerMapping>();
+	private Map<String, HandlerMapping> keyValue = new HashMap<String, HandlerMapping>();
 	
 	public RileyFramework(){
 	}
