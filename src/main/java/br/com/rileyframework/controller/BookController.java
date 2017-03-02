@@ -9,7 +9,7 @@ import br.com.rileyframework.model.Book;
  * Sample of Test
  */
 @Rest
-public class UserController {
+public class BookController {
 	
 	@Get("/books")
 	public String getBook() {

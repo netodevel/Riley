@@ -5,9 +5,7 @@ import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -86,8 +84,6 @@ public class RileyFrontController extends HttpServlet {
 		PathVariablesUtil pathVariable = new PathVariablesUtil();
 		String getActionURL = pathVariable.getActionURL(servletPath, rileyFramework.getMappings());
 		
-		System.out.println("URL DEVIDA: " + getActionURL);
-		
 		HandlerMapping handlerMapping = rileyFramework.getKeyValue().get(getActionURL);
 		if (handlerMapping != null) {
 			Class clazzName = Class.forName(handlerMapping.getControllerAction());
@@ -97,7 +93,6 @@ public class RileyFrontController extends HttpServlet {
 				for (Method methods : clazz.getDeclaredMethods()) {
 					if (methods.isAnnotationPresent(Get.class) && methods.getAnnotation(Get.class).value().equals(getActionURL)) {
 						List<String> parameters = pathVariable.getParameters(servletPath, getActionURL);
-						System.out.println("PARAMETERS: " + parameters);
 						if (parameters != null && parameters.size() > 0) {
 							resp.getWriter().println(methods.invoke(obj, parameters.toArray()).toString());
 						} else {
