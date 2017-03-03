@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import br.com.rileyframework.annotations.Get;
 import br.com.rileyframework.annotations.Rest;
-import br.com.rileyframework.utils.BasePackageMemory;
+import br.com.rileyframework.utils.SetupRiley;
 import br.com.rileyframework.utils.PathVariablesUtil;
 
 public class RileyFrontController extends HttpServlet {
@@ -27,7 +27,7 @@ public class RileyFrontController extends HttpServlet {
 	@Override
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
-		String basePackage = BasePackageMemory.getPackageInMemory(new File("src/main/resources/basepackage.txt"));
+		String basePackage = SetupRiley.getBasePackage(new File("src/main/resources/setup.conf"));
 
 		try {
 			rileyFramework.handlerMappings(basePackage);

@@ -11,8 +11,8 @@ import org.reflections.Reflections;
 
 import br.com.rileyframework.annotations.Get;
 import br.com.rileyframework.annotations.Rest;
-import br.com.rileyframework.run.JettyEmbedded;
-import br.com.rileyframework.utils.BasePackageMemory;
+import br.com.rileyframework.servers.JettyServer;
+import br.com.rileyframework.utils.SetupRiley;
 
 /**
  * @author NetoDevel
@@ -31,14 +31,14 @@ public class RileyFramework {
 		this.keyValue = keyValue;
 	}
 
-	public void init(@SuppressWarnings("rawtypes") Class baseClass, String [] args) {
+	public void init(@SuppressWarnings("rawtypes") Class baseClass) {
 		try {
 			this.mappings = new ArrayList<HandlerMapping>();
 			this.keyValue = new HashMap<String, HandlerMapping>();
 
-			BasePackageMemory.savePackageInMemory(baseClass.getName());
+			SetupRiley.generateSetupRiley(baseClass.getName());
 			
-			JettyEmbedded.init(args);
+			JettyServer.init();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -69,7 +69,8 @@ public class RileyFramework {
 	
 	public static void createTableCli(List<HandlerMapping> mappings) {
 		String leftAlignFormat = "| %-15s | %-12s |%n";
-		System.out.println("%n");
+		System.out.println("\n");
+		System.out.println("\n");
 		System.out.format("+-----------------+--------------+%n");
 		System.out.format("| method          | path         |%n");
 		System.out.format("+-----------------+--------------+%n");
@@ -77,6 +78,7 @@ public class RileyFramework {
 		    System.out.format(leftAlignFormat, mappings.get(i).getMethod(), mappings.get(i).getAction());
 		}
 		System.out.format("+-----------------+--------------+%n");
+		System.out.println("\n");
 	}
 	
 	public void keyValueMappings(String action, HandlerMapping handlerMapping) {

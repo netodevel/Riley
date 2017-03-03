@@ -1,4 +1,4 @@
-package br.com.rileyframework.generics;
+package br.com.rileyframework.serialization;
 
 import com.google.gson.Gson;
 

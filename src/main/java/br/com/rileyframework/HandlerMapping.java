@@ -1,11 +1,12 @@
 package br.com.rileyframework;
 
+/**
+ * @author NetoDevel
+ */
 public class HandlerMapping {
 
 	private String action;
-	
 	private String controllerAction;
-	
 	private String method;
 	
 	public HandlerMapping(){

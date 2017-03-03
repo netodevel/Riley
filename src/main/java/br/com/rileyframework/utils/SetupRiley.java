@@ -7,10 +7,10 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class BasePackageMemory {
+public class SetupRiley {
 	
-	public static void savePackageInMemory(String baseClass) {
-		File f = new File("src/main/resources/basepackage.txt");
+	public static void generateSetupRiley(String baseClass) {
+		File f = new File("src/main/resources/setup.conf");
 		try {
 			FileWriter fw = new FileWriter(f);
 			BufferedWriter bw = new BufferedWriter(fw);
@@ -24,7 +24,7 @@ public class BasePackageMemory {
 	}
 	
 	@SuppressWarnings("resource")
-	public static String getPackageInMemory(File f) {
+	public static String getBasePackage(File f) {
 		try {
 			FileReader fr = new FileReader(f);
 			BufferedReader br = new BufferedReader(fr);
@@ -33,7 +33,6 @@ public class BasePackageMemory {
 				return s;
 			}
 		} catch (IOException e) {
-			System.out.println("###### Erro: "+e.getMessage());
 			e.printStackTrace();
 		}
 		return null;
