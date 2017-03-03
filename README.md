@@ -23,7 +23,7 @@ import br.com.rileyframework.RileyFramework;
 public class SampleApplication {
 
 	public static void main(String[] args) {
-		new RileyFramework().init(SampleApplication.class, args);
+		new RileyFramework().init(SampleApplication.class);
 	}
 }
 ```
@@ -50,4 +50,17 @@ public class UserController {
 
 ###Access
     http://localhost:8080/users
-
+```json
+[
+	{
+		"id": "1",
+		"mail": "josevieira.dev@gmail.com",
+		"password": "password"
+	},
+	{
+		"id": "2",
+		"mail": "netodevel@gmail.com",
+		"password": "password"
+	}
+]
+```
