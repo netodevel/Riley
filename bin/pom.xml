@@ -7,7 +7,6 @@
 
 	<properties>
 		<jetty-version>9.4.0.v20161208</jetty-version>
-		<undertow-version>2.0.0.Alpha1</undertow-version>
 	</properties>
 
 	<dependencies>
@@ -42,24 +41,6 @@
 			<groupId>org.reflections</groupId>
 			<artifactId>reflections</artifactId>
 			<version>0.9.10</version>
-		</dependency>
-
-		<dependency>
-			<groupId>io.undertow</groupId>
-			<artifactId>undertow-core</artifactId>
-			<version>${undertow-version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>io.undertow</groupId>
-			<artifactId>undertow-servlet</artifactId>
-			<version>${undertow-version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>io.undertow</groupId>
-			<artifactId>undertow-websockets-jsr</artifactId>
-			<version>${undertow-version}</version>
 		</dependency>
 
 	</dependencies>
