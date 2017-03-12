@@ -8,6 +8,7 @@ public class HandlerMapping {
 	private String action;
 	private String controllerAction;
 	private String method;
+	private String regex;
 	
 	public HandlerMapping(){
 	}
@@ -41,6 +42,19 @@ public class HandlerMapping {
 
 	public void setMethod(String method) {
 		this.method = method;
+	}
+
+	public String getRegex() {
+		return regex;
+	}
+
+	public void setRegex(String regex) {
+		this.regex = regex;
+	}
+	
+	public HandlerMapping withRegex(String regex) {
+		this.regex = regex;
+		return this;
 	}
 	
 }

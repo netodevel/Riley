@@ -6,12 +6,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.reflections.Reflections;
 
 import br.com.rileyframework.annotations.Get;
 import br.com.rileyframework.annotations.Rest;
 import br.com.rileyframework.servers.JettyServer;
+import br.com.rileyframework.utils.GeneratorRegex;
 import br.com.rileyframework.utils.SetupRiley;
 
 /**
@@ -55,9 +58,14 @@ public class RileyFramework {
 			for (Method methods : clazzAnnoted.getDeclaredMethods()) {
 				if (methods.isAnnotationPresent(Get.class)) {
 					String action =  methods.getAnnotation(Get.class).value();
-					mappings.add(new HandlerMapping(action, clazzAnnoted.getName(), "GET"));
+					mappings.add(new HandlerMapping(action, clazzAnnoted.getName(), "GET").
+							withRegex(GeneratorRegex.generatorRegexFromUrl(action)));
 				}
 			}
+		}
+		
+		for (HandlerMapping maps : mappings) {
+			System.out.println("regex urls: " + maps.getRegex());
 		}
 		
 		for (HandlerMapping mapping : mappings) {
@@ -65,6 +73,18 @@ public class RileyFramework {
 		}
 		
 		createTableCli(mappings);
+	}
+	
+	/**
+	 * 
+	 * @param regex
+	 * @param urlOrigin
+	 * @return boolean
+	 */
+	public static boolean matchUrl(String regex, String urlOrigin) {
+		Pattern p = Pattern.compile(regex);
+	    Matcher m = p.matcher(urlOrigin);
+		return m.matches();
 	}
 	
 	public static void createTableCli(List<HandlerMapping> mappings) {
