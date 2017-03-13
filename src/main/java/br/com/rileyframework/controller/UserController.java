@@ -20,7 +20,7 @@ public class UserController {
     }
     
     @Get("/user/{id}/books/{id}")
-    public String testando() {
+    public String testando(String idUser, String idBook) {
     	return "testando";
     }
 

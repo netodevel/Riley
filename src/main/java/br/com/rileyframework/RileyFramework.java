@@ -13,42 +13,53 @@ import org.reflections.Reflections;
 
 import br.com.rileyframework.annotations.Get;
 import br.com.rileyframework.annotations.Rest;
-import br.com.rileyframework.servers.JettyServer;
+import br.com.rileyframework.servers.ServerFactory;
 import br.com.rileyframework.utils.GeneratorRegex;
 import br.com.rileyframework.utils.SetupRiley;
 
 /**
+ * Main Class RileyFramework
+ * 
  * @author NetoDevel
  */
 public class RileyFramework {
 	
-	private List<HandlerMapping> mappings = new ArrayList<HandlerMapping>();
-	private Map<String, HandlerMapping> keyValue = new HashMap<String, HandlerMapping>();
+	private List<UrlMapping> mappings = new ArrayList<UrlMapping>();
+	private Map<String, UrlMapping> keyValue = new HashMap<String, UrlMapping>();
+	private ServerFactory serverFactory;
 	
 	public RileyFramework(){
 	}
 	
-	public RileyFramework(List<HandlerMapping> mappings, Map<String, HandlerMapping> keyValue) {
+	public RileyFramework(List<UrlMapping> mappings, Map<String, UrlMapping> keyValue) {
 		super();
 		this.mappings = mappings;
 		this.keyValue = keyValue;
 	}
 
-	public void init(@SuppressWarnings("rawtypes") Class baseClass) {
+	/**
+	 * start your application
+	 * 
+	 * @param baseClass
+	 * @param server
+	 */
+	public void init(@SuppressWarnings("rawtypes") Class baseClass, String server) {
 		try {
-			this.mappings = new ArrayList<HandlerMapping>();
-			this.keyValue = new HashMap<String, HandlerMapping>();
+			this.mappings = new ArrayList<UrlMapping>();
+			this.keyValue = new HashMap<String, UrlMapping>();
+			serverFactory = new ServerFactory();
 
 			SetupRiley.generateSetupRiley(baseClass.getName());
 			
-			JettyServer.init();
+			serverFactory.create(server);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
 	@SuppressWarnings("rawtypes")
-	public void handlerMappings(String baseClass) throws InstantiationException, IllegalAccessException, InvocationTargetException, ClassNotFoundException {
+	public void registerUrlMappings(String baseClass) throws InstantiationException, IllegalAccessException, InvocationTargetException, ClassNotFoundException {
 
 		Class clazz = Class.forName(baseClass);
 		Reflections reflections = new Reflections(clazz.getPackage());
@@ -58,17 +69,13 @@ public class RileyFramework {
 			for (Method methods : clazzAnnoted.getDeclaredMethods()) {
 				if (methods.isAnnotationPresent(Get.class)) {
 					String action =  methods.getAnnotation(Get.class).value();
-					mappings.add(new HandlerMapping(action, clazzAnnoted.getName(), "GET").
+					mappings.add(new UrlMapping(action, clazzAnnoted.getName(), "GET").
 							withRegex(GeneratorRegex.generatorRegexFromUrl(action)));
 				}
 			}
 		}
 		
-		for (HandlerMapping maps : mappings) {
-			System.out.println("regex urls: " + maps.getRegex());
-		}
-		
-		for (HandlerMapping mapping : mappings) {
+		for (UrlMapping mapping : mappings) {
 			keyValueMappings(mapping.getAction(), mapping);
 		}
 		
@@ -81,13 +88,13 @@ public class RileyFramework {
 	 * @param urlOrigin
 	 * @return boolean
 	 */
-	public static boolean matchUrl(String regex, String urlOrigin) {
+	public boolean matchUrl(String regex, String urlOrigin) {
 		Pattern p = Pattern.compile(regex);
 	    Matcher m = p.matcher(urlOrigin);
 		return m.matches();
 	}
 	
-	public static void createTableCli(List<HandlerMapping> mappings) {
+	public static void createTableCli(List<UrlMapping> mappings) {
 		String leftAlignFormat = "| %-15s | %-12s |%n";
 		System.out.println("\n");
 		System.out.println("\n");
@@ -101,23 +108,23 @@ public class RileyFramework {
 		System.out.println("\n");
 	}
 	
-	public void keyValueMappings(String action, HandlerMapping handlerMapping) {
+	public void keyValueMappings(String action, UrlMapping handlerMapping) {
 		this.keyValue.put(action, handlerMapping);
 	}
 
-	public List<HandlerMapping> getMappings() {
+	public List<UrlMapping> getMappings() {
 		return mappings;
 	}
 
-	public void setMappings(List<HandlerMapping> mappings) {
+	public void setMappings(List<UrlMapping> mappings) {
 		this.mappings = mappings;
 	}
 
-	public Map<String, HandlerMapping> getKeyValue() {
+	public Map<String, UrlMapping> getKeyValue() {
 		return keyValue;
 	}
 
-	public void setKeyValue(Map<String, HandlerMapping> keyValue) {
+	public void setKeyValue(Map<String, UrlMapping> keyValue) {
 		this.keyValue = keyValue;
 	}
 	

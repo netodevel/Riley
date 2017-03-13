@@ -1,19 +1,21 @@
 package br.com.rileyframework;
 
 /**
+ * Atributes of a request
+ * 
  * @author NetoDevel
  */
-public class HandlerMapping {
+public class UrlMapping {
 
 	private String action;
 	private String controllerAction;
 	private String method;
 	private String regex;
 	
-	public HandlerMapping(){
+	public UrlMapping(){
 	}
 
-	public HandlerMapping(String action, String controllerAction, String method) {
+	public UrlMapping(String action, String controllerAction, String method) {
 		super();
 		this.action = action;
 		this.controllerAction = controllerAction;
@@ -52,7 +54,7 @@ public class HandlerMapping {
 		this.regex = regex;
 	}
 	
-	public HandlerMapping withRegex(String regex) {
+	public UrlMapping withRegex(String regex) {
 		this.regex = regex;
 		return this;
 	}
