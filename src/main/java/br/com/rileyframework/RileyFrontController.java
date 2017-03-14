@@ -2,8 +2,6 @@ package br.com.rileyframework;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -11,8 +9,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import br.com.rileyframework.annotations.Get;
-import br.com.rileyframework.annotations.Rest;
 import br.com.rileyframework.utils.SetupRiley;
 
 /**
@@ -22,16 +18,22 @@ import br.com.rileyframework.utils.SetupRiley;
  */
 public class RileyFrontController extends HttpServlet {
 
+	private static final String DIR_BASE_PACKAGE = "src/main/resources/setup.conf";
+	
 	private static final long serialVersionUID = 1L;
 
-	private RileyFramework rileyFramework = new RileyFramework();
+	private RileyFramework rileyFramework;
+	
+	private HttpCommands httpCommands;
 	
 	@Override
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
-		String basePackage = SetupRiley.getBasePackage(new File("src/main/resources/setup.conf"));
+		rileyFramework = new RileyFramework();
+		httpCommands = new HttpCommands();
+		String basePackage = SetupRiley.getBasePackage(new File(DIR_BASE_PACKAGE));
 		try {
-			rileyFramework.registerUrlMappings(basePackage);
+			rileyFramework.scanMappings(basePackage);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -65,49 +67,9 @@ public class RileyFrontController extends HttpServlet {
 		final String servletPath = req.getServletPath();
 		for (UrlMapping urlMapped : rileyFramework.getMappings()) {
 			if (rileyFramework.matchUrl(urlMapped.getRegex(), servletPath)) {
-				Class<?> clazzName = Class.forName(urlMapped.getControllerAction());
-				Object obj = createNewInstance(clazzName);
-				Class<?> clazz = obj.getClass();
-				invokeActionGETRequest(resp, servletPath, urlMapped.getAction(), clazz, obj);
+				httpCommands.invokeAction(servletPath, req, resp, urlMapped);
 				break;
 			}
-		}
-	}
-
-	private void invokeActionGETRequest(HttpServletResponse resp, final String servletPath, String getActionURL, Class<?> clazz, Object obj) throws Exception  {
-		try{
-			if (clazz.isAnnotationPresent(Rest.class)) {
-				for (Method methods : clazz.getDeclaredMethods()) {
-					if (methods.isAnnotationPresent(Get.class) && methods.getAnnotation(Get.class).value().equals(getActionURL)) {
-						//TODO: get parameters with regex
-//					if (parameters != null && parameters.size() > 0) {
-//						resp.getWriter().println(methods.invoke(obj, parameters.toArray()).toString());
-//					} else {
-						resp.getWriter().println(methods.invoke(obj));
-						//}
-					} 
-				}
-			}
-		} catch (Exception e) {
-			throw new Exception("error: invoke action" + e.getMessage());
-		}
-	}
-
-	/**
-	 * Create new instance of class with url invoked
-	 * 
-	 * @param clazz
-	 * @return
-	 * @throws Exception
-	 */
-	private static Object createNewInstance(Class<?> clazz) throws Exception {
-		try{ 
-			Constructor<?> ctor;
-			ctor = clazz.getConstructors()[0];
-			Object object = ctor.newInstance();
-			return object;
-		} catch(Exception e) {
-			throw new Exception("error: instance class." + e.getMessage());
 		}
 	}
 

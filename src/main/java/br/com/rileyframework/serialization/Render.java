@@ -2,7 +2,10 @@ package br.com.rileyframework.serialization;
 
 import com.google.gson.Gson;
 
-public class JsonReturn {
+/**
+ * @author NetoDevel
+ */
+public class Render {
 	
 	public static <T> String toJson(T object) {
 		Gson gson = new Gson();

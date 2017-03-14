@@ -6,7 +6,7 @@ import java.util.List;
 import br.com.rileyframework.annotations.Get;
 import br.com.rileyframework.annotations.Rest;
 import br.com.rileyframework.model.User;
-import br.com.rileyframework.serialization.JsonReturn;
+import br.com.rileyframework.serialization.Render;
 
 @Rest
 public class UserController {
@@ -16,12 +16,7 @@ public class UserController {
         List<User> users = new ArrayList<User>();
         users.add(new User("1", "josevieira.dev@gmail.com", "password"));
         users.add(new User("2", "netodevel@gmail.com", "password"));
-        return JsonReturn.toJson(users);
-    }
-    
-    @Get("/user/{id}/books/{id}")
-    public String testando(String idUser, String idBook) {
-    	return "testando";
+        return Render.toJson(users);
     }
 
 }

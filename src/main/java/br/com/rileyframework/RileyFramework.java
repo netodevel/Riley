@@ -46,7 +46,7 @@ public class RileyFramework extends AbstractRegisterMappings {
 	 * @param basePackage
 	 * @throws Exception
 	 */
-	public void registerUrlMappings(String basePackage) throws Exception {
+	public void scanMappings(String basePackage) throws Exception {
 		try {
 			Class<?> clazz = Class.forName(basePackage);
 			Reflections reflections = new Reflections(clazz.getPackage());
