@@ -11,7 +11,7 @@ For study purposes.
          User.java
 
      src/main/resources
-          basepackage.txt
+          setup.conf
 
 
 ##Usage
@@ -23,7 +23,7 @@ import br.com.rileyframework.RileyFramework;
 public class SampleApplication {
 
 	public static void main(String[] args) {
-		new RileyFramework().init(SampleApplication.class);
+		new RileyFramework().init(SampleApplication.class, Servers.JETTY);
 	}
 }
 ```
