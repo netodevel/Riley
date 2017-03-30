@@ -1,7 +1,7 @@
 # RileyFramework
 For study purposes.
 
-###Structure
+### Structure
 
      com.example
          SampleApplication.java
@@ -14,9 +14,9 @@ For study purposes.
           setup.conf
 
 
-##Usage
+## Usage
 
-###Run
+### Run
 ```java
 import br.com.rileyframework.RileyFramework;
 
@@ -28,7 +28,7 @@ public class SampleApplication {
 }
 ```
 
-###RestController
+### RestController
 ```java
 import br.com.rileyframework.annotations.Get;
 import br.com.rileyframework.annotations.Rest;
@@ -48,7 +48,7 @@ public class UserController {
 }
 ```
 
-###Access
+### Access
     http://localhost:8080/users
 ```json
 [
