@@ -1,5 +1,62 @@
 # RileyFramework
-For study purposes.
+The purpose of this repository is to learn how to build a micro web framework in java.
+
+Inspired by Rails, let's try to build a framework similar to this.
+
+## future fetaures
+
+### Controller Rest
+
+```java
+public class UserController extends ApplicationController {
+
+  {
+    baseUrl("/api/v1/users")
+    
+    beforeAction(req -> {
+    	//TODO
+    })
+
+    get("/:id", req -> {
+        int id = req.param("id").intValue();
+        User user = User.find(id);
+        if (user == null) {
+          throw new Err(Status.NOT_FOUND);
+        }
+        return user;
+      })
+      
+     post(req -> {
+        User user = req.body().to(User.class);
+	
+	UserSaveCommand userSaveCommand = new UserSaveCommand();
+	userSaveCommand.onSuccess(() -> {
+	  System.out.println("success");
+	});
+
+	userSaveCommand.onFailed(() -> {
+	  System.out.println("error");
+	});
+
+	userSaveCommand.save(value);
+        
+        return user;
+     })
+  }
+
+}
+```
+
+### Model
+
+```java
+public class User extends Model {
+  static {
+  	validatePresence({"name", "email"})
+  }
+}
+```
+
 
 ### Structure
 
