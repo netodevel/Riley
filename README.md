@@ -58,7 +58,28 @@ public class User extends Model {
 ```
 
 
-### Structure
+### Future Structure
+
+```
+ - commands
+   -> users
+      - SaveUserCommand.java
+      - EditUserCommand.java
+      - DeleteUserCommand.java
+ - controllers
+   -> users
+      - UserController.java
+ - models
+   - User.java
+ - config
+   -> db
+      database.java
+   - routes.java
+ - initializers
+   - Application.java
+ ```
+
+### Actual Usage
 
      com.example
          SampleApplication.java
@@ -71,7 +92,7 @@ public class User extends Model {
           setup.conf
 
 
-## Usage
+## Actual Usage
 
 ### Run
 ```java
