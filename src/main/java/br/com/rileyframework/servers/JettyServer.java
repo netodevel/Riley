@@ -7,7 +7,7 @@ import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 
-import br.com.rileyframework.RileyFrontController;
+import br.com.rileyframework.RileyServlet;
 
 public class JettyServer {
 
@@ -18,7 +18,7 @@ public class JettyServer {
 		ServletContextHandler sch = new ServletContextHandler(ServletContextHandler.SESSIONS);
 		sch.setContextPath("/");
 
-		sch.addServlet(new ServletHolder(new RileyFrontController()), "/");
+		sch.addServlet(new ServletHolder(new RileyServlet()), "/");
 
 		handlers.setHandlers(new Handler[] { sch, new DefaultHandler() });
 		server.setHandler(handlers);

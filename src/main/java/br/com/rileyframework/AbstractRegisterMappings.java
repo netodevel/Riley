@@ -16,7 +16,6 @@ public abstract class AbstractRegisterMappings implements RegisterMappings {
 	
 	private List<UrlMapping> mappings = new ArrayList<UrlMapping>();
 	
-	@Override
 	public void scanGet(Class<?> clazzAnnoted, Method methods) {
 		if (methods.isAnnotationPresent(Get.class)) {
 			String action =  methods.getAnnotation(Get.class).value();
