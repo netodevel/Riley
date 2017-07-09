@@ -1,5 +1,6 @@
 package br.com.rileyframework;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.List;
 
@@ -42,7 +43,17 @@ public class RileyServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)  {
 		try {
-			doProcess(req, resp);
+			//doProcess(req, resp);
+			StringBuffer jb = new StringBuffer();
+			  String line = null;
+			  try {
+			    BufferedReader reader = req.getReader();
+			    while ((line = reader.readLine()) != null)
+			      jb.append(line);
+			  } catch (Exception e) { /*report an error*/ }
+
+			  System.out.println("post" + jb);
+			  
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -61,13 +72,6 @@ public class RileyServlet extends HttpServlet {
 				route.getHandler().handler(req, resp);
 			}
 		}
-		
-//		for (UrlMapping urlMapped : rileyFramework.getMappings()) {
-//			if (rileyFramework.matchUrl(urlMapped.getRegex(), servletPath)) {
-//				httpCommands.invokeAction(servletPath, req, resp, urlMapped);
-//				break;
-//			}
-//		}
 	}
 	
 }
