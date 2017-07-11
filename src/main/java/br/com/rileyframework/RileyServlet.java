@@ -3,6 +3,9 @@ package br.com.rileyframework;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -68,10 +71,23 @@ public class RileyServlet extends HttpServlet {
 	private void doProcess(HttpServletRequest req, HttpServletResponse resp) throws Exception {
 		final String servletPath = req.getServletPath();
 		for (Route route : listRoutes) {
-			if (route.getRoute().equals(servletPath)) {
+			if (matchUrl(route.getRouteRegex(), servletPath)) {
 				route.getHandler().handler(req, resp);
 			}
 		}
+	}
+	
+	public Map<String, String> getPathParameters(String url) {
+		String urlSplit[] = url.split("/{");
+		System.out.println(urlSplit[0]);
+		System.out.println(urlSplit[1]);
+		return null;
+	}
+	
+	public boolean matchUrl(String regex, String urlOrigin) {
+		Pattern p = Pattern.compile(regex);
+	    Matcher m = p.matcher(urlOrigin);
+		return m.matches();
 	}
 	
 }

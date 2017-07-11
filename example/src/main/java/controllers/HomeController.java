@@ -2,14 +2,16 @@ package controllers;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import br.com.rileyframework.RileyFrameworkBuilder;
 
-public class HomeController extends RileyFrameworkBuilder {
+import br.com.rileyframework.ApplicationController;
+
+public class HomeController extends ApplicationController {
 	
 	{
 		get("/home", new HttpHandlerRequest() {
 			public void handler(HttpServletRequest request, HttpServletResponse response) {
-				System.out.println("home...");
+				// TODO Auto-generated method stub
+				
 			}
 		});
 		
@@ -19,7 +21,4 @@ public class HomeController extends RileyFrameworkBuilder {
 			}
 		});
 	}
-	
-	
-
 }

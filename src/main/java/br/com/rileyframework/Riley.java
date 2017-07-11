@@ -21,7 +21,8 @@ public class Riley {
 	public void init(String typeServer) throws Exception {
 		this.serverFactory.create(typeServer);
 		for (Route routes : registerControllers()) {
-			System.out.println(routes.getRoute());
+			System.out.println("route: " + routes.getRoute());
+			System.out.println("regex: " + routes.getRouteRegex());
 		}
 		
 	}
@@ -31,14 +32,14 @@ public class Riley {
 		Reflections reflections = new Reflections(BASE_PACKAGE_CONTROLLERS);
 		
 		// get all controller of application
-		Set<Class<? extends RileyFrameworkBuilder>> allControllers = reflections.getSubTypesOf(RileyFrameworkBuilder.class);
+		Set<Class<? extends ApplicationController>> allControllers = reflections.getSubTypesOf(ApplicationController.class);
 
 		// list to register urls 
 		List<Route> listRoutes = new ArrayList<Route>();
 		
 		for (Class<?> controller : allControllers) {
 		   Class c = Class.forName(controller.getName());
-			RileyFrameworkBuilder controllerIstanced = (RileyFrameworkBuilder) createNewInstance(c);
+			ApplicationController controllerIstanced = (ApplicationController) createNewInstance(c);
 			for (int j = 0; j < controllerIstanced.getRoutes().size(); j++) {
 				listRoutes.add(controllerIstanced.getRoutes().get(j));
 			}

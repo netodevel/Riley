@@ -1,6 +1,6 @@
 package br.com.rileyframework;
 
-import br.com.rileyframework.RileyFrameworkBuilder.HttpHandlerRequest;
+import br.com.rileyframework.ApplicationController.HttpHandlerRequest;
 
 public class Route {
 

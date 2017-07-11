@@ -6,7 +6,9 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public abstract class RileyFrameworkBuilder {
+import br.com.rileyframework.utils.GeneratorRegex;
+
+public abstract class ApplicationController {
 
 	private List<Route> routes = new ArrayList<Route>();
 	
@@ -16,22 +18,18 @@ public abstract class RileyFrameworkBuilder {
 		routeObj.setRoute(route);
 		routeObj.setHandler(handler);
 		routeObj.setHttpMethod("GET");
+		routeObj.setRouteRegex(GeneratorRegex.generatorRegexFromUrl(route));
 		
 		getRoutes().add(routeObj);
 	}
 	
-	public RileyFrameworkBuilder(){
+	public ApplicationController(){
 		
 	}
 	
 	public interface HttpHandlerRequest {
 		void handler(HttpServletRequest request, HttpServletResponse response);
 	}
-	
-	interface ApplicationController {
-		void init();
-	}
-	
 	
 	public static void main(String[] args) {
 		
@@ -82,7 +80,7 @@ public abstract class RileyFrameworkBuilder {
 	
 }
 
-class OtherController extends RileyFrameworkBuilder {
+class OtherController extends ApplicationController {
 	
 	{
 		get("/outher", new HttpHandlerRequest() {
@@ -93,7 +91,7 @@ class OtherController extends RileyFrameworkBuilder {
 	}
 }
 
-class UserController extends RileyFrameworkBuilder {
+class UserController extends ApplicationController {
 
 	public UserController() {
 	}
