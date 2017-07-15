@@ -2,8 +2,8 @@ package br.com.rileyframework;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -72,16 +72,38 @@ public class RileyServlet extends HttpServlet {
 		final String servletPath = req.getServletPath();
 		for (Route route : listRoutes) {
 			if (matchUrl(route.getRouteRegex(), servletPath)) {
-				route.getHandler().handler(req, resp);
+
+				Request request = buildRequest(servletPath, route);
+				
+				route.getHandler().handler(request, resp);
 			}
 		}
 	}
+
+	private Request buildRequest(final String servletPath, Route route) {
+		Request request = new Request();
+		request.setPathVariables(getPathVariables(route.getRoute(), servletPath));
+		return request;
+	}
 	
-	public Map<String, String> getPathParameters(String url) {
-		String urlSplit[] = url.split("/{");
-		System.out.println(urlSplit[0]);
-		System.out.println(urlSplit[1]);
-		return null;
+	/**
+	 * get path variables url
+	 * @return 
+	 */
+	private HashMap<String, String> getPathVariables(String url, String contextPath) {
+		String[] paramName = url.split("\\/\\w*\\/");
+		String[] paramValue = contextPath.split("\\/\\w*\\/");
+		HashMap<String, String> pathVariables = new HashMap<>();
+
+		for (int i = 0; i < paramValue.length; i++) {
+			if (paramValue[i].equals("") || paramValue[i].equals(null)) {
+				continue;
+			} else {
+				pathVariables.put(paramName[i], paramValue[i]);
+			}
+		}
+		
+		return pathVariables;
 	}
 	
 	public boolean matchUrl(String regex, String urlOrigin) {
