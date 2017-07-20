@@ -91,6 +91,8 @@ public class RileyServlet extends HttpServlet {
 	 * @return 
 	 */
 	private HashMap<String, String> getPathVariables(String url, String contextPath) {
+		url = validateUrlToRegex(url);
+		
 		String[] paramName = url.split("\\/\\w*\\/");
 		String[] paramValue = contextPath.split("\\/\\w*\\/");
 		HashMap<String, String> pathVariables = new HashMap<>();
@@ -104,6 +106,14 @@ public class RileyServlet extends HttpServlet {
 		}
 		
 		return pathVariables;
+	}
+	
+	public String validateUrlToRegex(String url) {
+		String firstCaracter = String.valueOf(url.charAt(0));
+		if (!firstCaracter.equals("/")) {
+			url = "/" + url;
+		}
+		return url;
 	}
 	
 	public boolean matchUrl(String regex, String urlOrigin) {

@@ -20,11 +20,6 @@ public class Riley {
 	
 	public void init(String typeServer) throws Exception {
 		this.serverFactory.create(typeServer);
-		for (Route routes : registerControllers()) {
-			System.out.println("route: " + routes.getRoute());
-			System.out.println("regex: " + routes.getRouteRegex());
-		}
-		
 	}
 
 	@SuppressWarnings("rawtypes")

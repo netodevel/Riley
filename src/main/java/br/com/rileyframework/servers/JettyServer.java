@@ -12,7 +12,7 @@ import br.com.rileyframework.RileyServlet;
 public class JettyServer {
 
 	public static void init() throws Exception	{
-		Server server = new Server(8080);
+		Server server = new Server(9000);
 		HandlerList handlers = new HandlerList();
 
 		ServletContextHandler sch = new ServletContextHandler(ServletContextHandler.SESSIONS);

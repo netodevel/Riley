@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
+
 import br.com.rileyframework.utils.GeneratorRegex;
 
 public abstract class ApplicationController {
@@ -20,6 +22,11 @@ public abstract class ApplicationController {
 		routeObj.setRouteRegex(GeneratorRegex.generatorRegexFromUrl(route));
 		
 		getRoutes().add(routeObj);
+	}
+	
+	public String json(Object object) {
+		Gson gson = new Gson();
+		return gson.toJson(object);
 	}
 	
 	public ApplicationController(){
