@@ -74,10 +74,17 @@ public class RileyServlet extends HttpServlet {
 			if (matchUrl(route.getRouteRegex(), servletPath)) {
 
 				Request request = buildRequest(servletPath, route);
+				Response response = buildResponse(resp);
 				
-				route.getHandler().handler(request, resp);
+				route.getHandler().handler(request, response);
 			}
 		}
+	}
+
+	private Response buildResponse(HttpServletResponse resp) throws IOException {
+		Response response = new Response();
+		response.setPrintWriter(resp.getWriter());
+		return response;
 	}
 
 	private Request buildRequest(final String servletPath, Route route) {

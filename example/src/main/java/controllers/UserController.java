@@ -1,34 +1,32 @@
 package controllers;
 
-import java.io.IOException;
-
-import javax.servlet.http.HttpServletResponse;
-
 import br.com.rileyframework.ApplicationController;
-import br.com.rileyframework.Request;
-import iteractors.UserIteractor;
+import commands.users.UserSaveCommand;
 import models.User;
 
 public class UserController extends ApplicationController {
 	
 	{
-		get("/users/{user_id}", new HttpHandlerRequest() {
+		get("/users/{user_id}", (request, response) -> {
+			String idUser = request.getPathVariables().get("{user_id}");
 			
-			@Override
-			public void handler(Request request, HttpServletResponse response) {
-				String userId = request.getPathVariables().get("{user_id}");
-
-				UserIteractor userIteractor = new UserIteractor();
-				User userResponse = userIteractor.find(Integer.parseInt(userId));
-
-				try {
-					response.getWriter().print(json(userResponse));
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
+			UserSaveCommand userSaveCommand = new UserSaveCommand();
+			
+			userSaveCommand.onSuccess(() -> {
+				User user = new User();
+				user.setId(Integer.parseInt(idUser));
+				user.setName("NetoDevel");
+				user.setEmail("josevieira.dev@gmail.com");
+				response.json(user);
+			});
+			
+			userSaveCommand.onFailed(() -> {
+				String error = "Error save user.";
+				response.json(error);
+			});
+			
+			userSaveCommand.saveUser(Integer.parseInt(idUser));
 		});
-		
 	}
 	
 }

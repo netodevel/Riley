@@ -3,10 +3,6 @@ package br.com.rileyframework;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.http.HttpServletResponse;
-
-import com.google.gson.Gson;
-
 import br.com.rileyframework.utils.GeneratorRegex;
 
 public abstract class ApplicationController {
@@ -24,17 +20,12 @@ public abstract class ApplicationController {
 		getRoutes().add(routeObj);
 	}
 	
-	public String json(Object object) {
-		Gson gson = new Gson();
-		return gson.toJson(object);
-	}
-	
-	public ApplicationController(){
+	public ApplicationController() {
 		
 	}
 	
 	public interface HttpHandlerRequest {
-		void handler(Request request, HttpServletResponse response);
+		void handler(Request request, Response response);
 	}
 	
 	public List<Route> getRoutes() {
