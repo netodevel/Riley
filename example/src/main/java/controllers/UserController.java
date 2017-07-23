@@ -1,31 +1,20 @@
 package controllers;
 
-import br.com.rileyframework.ApplicationController;
-import commands.users.UserSaveCommand;
 import models.User;
+import br.com.rileyframework.ApplicationController;
+import br.com.rileyframework.Request;
+import br.com.rileyframework.Response;
 
 public class UserController extends ApplicationController {
 	
 	{
-		get("/users/{user_id}", (request, response) -> {
-			String idUser = request.getPathVariables().get("{user_id}");
-			
-			UserSaveCommand userSaveCommand = new UserSaveCommand();
-			
-			userSaveCommand.onSuccess(() -> {
-				User user = new User();
-				user.setId(Integer.parseInt(idUser));
-				user.setName("NetoDevel");
-				user.setEmail("josevieira.dev@gmail.com");
+		// GET /users/1
+		get("/users/{user_id}", new HttpHandlerRequest() {
+			public void handler(Request request, Response response) {
+				String idUser = request.param("user_id");
+				User user = new User(Integer.parseInt(idUser), "NetoDevel", "josevieira.dev@gmail.com");
 				response.json(user);
-			});
-			
-			userSaveCommand.onFailed(() -> {
-				String error = "Error save user.";
-				response.json(error);
-			});
-			
-			userSaveCommand.saveUser(Integer.parseInt(idUser));
+			}
 		});
 	}
 	

@@ -32,4 +32,9 @@ public class Request {
 		this.requestBody = requestBody;
 	}
 	
+	public String param(String paramName) {
+		String paramFormated = "{" + paramName + "}";
+		return pathVariables.get(paramFormated);
+	}
+	
 }
