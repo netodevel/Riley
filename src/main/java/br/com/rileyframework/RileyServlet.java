@@ -46,22 +46,12 @@ public class RileyServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)  {
 		try {
-			//doProcess(req, resp);
-			StringBuffer jb = new StringBuffer();
-			  String line = null;
-			  try {
-			    BufferedReader reader = req.getReader();
-			    while ((line = reader.readLine()) != null)
-			      jb.append(line);
-			  } catch (Exception e) { /*report an error*/ }
-
-			  System.out.println("post" + jb);
-			  
+			doProcess(req, resp);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-
+	
 	/**
 	 * Handler request.
 	 * @param req
@@ -72,12 +62,23 @@ public class RileyServlet extends HttpServlet {
 		final String servletPath = req.getServletPath();
 		for (Route route : listRoutes) {
 			if (matchUrl(route.getRouteRegex(), servletPath)) {
-
-				Request request = buildRequest(servletPath, route);
-				Response response = buildResponse(resp);
+				Request request = null;
 				
+				switch (route.getHttpMethod()) {
+				case "GET":
+					 request = buildRequest(servletPath, route, null);
+					break;
+				case "POST":
+					request = buildRequest(servletPath, route, getBodyRequest(req));
+					break;
+				default:
+					break;
+				}
+
+				Response response = buildResponse(resp);
 				Response responseCallback = route.getHandler().handler(request, response);
 				
+				resp.setContentType("application/json");
 				resp.setStatus(responseCallback.getCode());
 			}
 		}
@@ -89,9 +90,14 @@ public class RileyServlet extends HttpServlet {
 		return response;
 	}
 
-	private Request buildRequest(final String servletPath, Route route) {
+	private Request buildRequest(final String servletPath, Route route, String body) {
 		Request request = new Request();
 		request.setPathVariables(getPathVariables(route.getRoute(), servletPath));
+	
+		if (route.getHttpMethod().equals("POST")) {
+			request.setRequestBody(body);
+		}
+		
 		return request;
 	}
 	
@@ -129,6 +135,18 @@ public class RileyServlet extends HttpServlet {
 		Pattern p = Pattern.compile(regex);
 	    Matcher m = p.matcher(urlOrigin);
 		return m.matches();
+	}
+	
+	public String getBodyRequest(HttpServletRequest request) {
+		StringBuffer jb = new StringBuffer();
+		String line = null;
+		try {
+			BufferedReader reader = request.getReader();
+			while ((line = reader.readLine()) != null)
+				jb.append(line);
+		} catch (Exception e) { /*report an error*/ }
+
+		return jb.toString();
 	}
 	
 }

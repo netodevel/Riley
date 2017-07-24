@@ -10,20 +10,26 @@ public abstract class ApplicationController {
 	private List<Route> routes = new ArrayList<Route>();
 	
 	public void get(String route, HttpHandlerRequest handler) {
-		
+		Route routeObj = buildRoute(route, handler, "GET");
+		getRoutes().add(routeObj);
+	}
+	
+	public void post(String route, HttpHandlerRequest handler) {
+		Route routeObj = buildRoute(route, handler, "POST");
+		getRoutes().add(routeObj);
+	}
+	
+	public ApplicationController() {
+	}
+	
+	private Route buildRoute(String route, HttpHandlerRequest handler, String httpMethod) {
 		Route routeObj = new Route();
 		
 		routeObj.setRoute(route);
 		routeObj.setHandler(handler);
-		routeObj.setHttpMethod("GET");
+		routeObj.setHttpMethod(httpMethod);
 		routeObj.setRouteRegex(GeneratorRegex.generatorRegexFromUrl(route));
-		
-		getRoutes().add(routeObj);
-		
-	}
-	
-	public ApplicationController() {
-		
+		return routeObj;
 	}
 	
 	public interface HttpHandlerRequest {
