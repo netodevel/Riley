@@ -19,6 +19,16 @@ public abstract class ApplicationController {
 		getRoutes().add(routeObj);
 	}
 	
+	public void put(String route, HttpHandlerRequest handler) {
+		Route routeObj = buildRoute(route, handler, "PUT");
+		getRoutes().add(routeObj);
+	}
+	
+	public void delete(String route, HttpHandlerRequest handler) {
+		Route routeObj = buildRoute(route, handler, "DELETE");
+		getRoutes().add(routeObj);
+	}
+	
 	public ApplicationController() {
 	}
 	

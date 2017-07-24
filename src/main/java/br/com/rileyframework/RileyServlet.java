@@ -16,9 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 public class RileyServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
-
 	private Riley riley;
-	
 	private List<Route> listRoutes;
 	
 	@Override
@@ -31,9 +29,8 @@ public class RileyServlet extends HttpServlet {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 	}
-
+	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		try {
@@ -45,6 +42,24 @@ public class RileyServlet extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)  {
+		try {
+			doProcess(req, resp);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Override
+	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		try {
+			doProcess(req, resp);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Override
+	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		try {
 			doProcess(req, resp);
 		} catch (Exception e) {
@@ -71,15 +86,24 @@ public class RileyServlet extends HttpServlet {
 				case "POST":
 					request = buildRequest(servletPath, route, getBodyRequest(req));
 					break;
+				case "PUT":
+					request = buildRequest(servletPath, route, getBodyRequest(req));
+					break;
+				case "DELETE":
+					request = buildRequest(servletPath, route, null);
+					break;
 				default:
+					resp.setStatus(404);
 					break;
 				}
 
 				Response response = buildResponse(resp);
-				Response responseCallback = route.getHandler().handler(request, response);
 				
-				resp.setContentType("application/json");
-				resp.setStatus(responseCallback.getCode());
+				if (route.getHttpMethod().equals(req.getMethod())) {
+					Response responseCallback = route.getHandler().handler(request, response);
+					resp.setContentType("application/json");
+					resp.setStatus(responseCallback.getCode());
+				}
 			}
 		}
 	}
