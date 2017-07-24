@@ -76,7 +76,9 @@ public class RileyServlet extends HttpServlet {
 				Request request = buildRequest(servletPath, route);
 				Response response = buildResponse(resp);
 				
-				route.getHandler().handler(request, response);
+				Response responseCallback = route.getHandler().handler(request, response);
+				
+				resp.setStatus(responseCallback.getCode());
 			}
 		}
 	}

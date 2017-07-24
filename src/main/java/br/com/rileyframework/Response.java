@@ -8,10 +8,13 @@ public class Response {
 	
 	private PrintWriter printWriter;
 	
-	public void json(Object object) {
+	private int code;
+	
+	public Response json(Object object) {
 		Gson gson = new Gson();
 		String json = gson.toJson(object);
 		printWriter.print(json);
+		return this;
 	}
 
 	public PrintWriter getPrintWriter() {
@@ -20,6 +23,19 @@ public class Response {
 
 	public void setPrintWriter(PrintWriter printWriter) {
 		this.printWriter = printWriter;
+	}
+	
+	public Response status(int code) {
+		this.setCode(code);
+		return this;
+	}
+
+	public int getCode() {
+		return code;
+	}
+
+	public void setCode(int code) {
+		this.code = code;
 	}
 	
 }

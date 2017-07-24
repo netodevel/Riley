@@ -10,6 +10,7 @@ public abstract class ApplicationController {
 	private List<Route> routes = new ArrayList<Route>();
 	
 	public void get(String route, HttpHandlerRequest handler) {
+		
 		Route routeObj = new Route();
 		
 		routeObj.setRoute(route);
@@ -18,6 +19,7 @@ public abstract class ApplicationController {
 		routeObj.setRouteRegex(GeneratorRegex.generatorRegexFromUrl(route));
 		
 		getRoutes().add(routeObj);
+		
 	}
 	
 	public ApplicationController() {
@@ -25,7 +27,7 @@ public abstract class ApplicationController {
 	}
 	
 	public interface HttpHandlerRequest {
-		void handler(Request request, Response response);
+		Response handler(Request request, Response response);
 	}
 	
 	public List<Route> getRoutes() {
