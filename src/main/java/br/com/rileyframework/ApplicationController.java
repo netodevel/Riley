@@ -8,6 +8,7 @@ import br.com.rileyframework.utils.GeneratorRegex;
 public abstract class ApplicationController {
 
 	private List<Route> routes = new ArrayList<Route>();
+	private String baseUrl;
 	
 	public void get(String route, HttpHandlerRequest handler) {
 		Route routeObj = buildRoute(route, handler, "GET");
@@ -29,16 +30,21 @@ public abstract class ApplicationController {
 		getRoutes().add(routeObj);
 	}
 	
+	public void baseUrl(String baseUrl) {
+		this.baseUrl = baseUrl;
+	}
+	
 	public ApplicationController() {
 	}
 	
 	private Route buildRoute(String route, HttpHandlerRequest handler, String httpMethod) {
 		Route routeObj = new Route();
-		
-		routeObj.setRoute(route);
+		String routeFromBase = this.baseUrl != null ? this.baseUrl + route : route;
+
+		routeObj.setRoute(routeFromBase);
 		routeObj.setHandler(handler);
 		routeObj.setHttpMethod(httpMethod);
-		routeObj.setRouteRegex(GeneratorRegex.generatorRegexFromUrl(route));
+		routeObj.setRouteRegex(GeneratorRegex.generatorRegexFromUrl(routeFromBase));
 		return routeObj;
 	}
 	

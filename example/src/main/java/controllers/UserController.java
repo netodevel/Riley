@@ -5,6 +5,8 @@ import models.User;
 
 public class UserController extends ApplicationController {
 	{
+		baseUrl("/api/v1");
+		
 		// GET /users/1
 		get("/users/{user_id}", (request, response) -> {
 			Integer userId = request.intParam("user_id");
