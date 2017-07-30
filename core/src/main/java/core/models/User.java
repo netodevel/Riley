@@ -1,4 +1,4 @@
-package models;
+package core.models;
 
 import java.io.Serializable;
 
@@ -40,5 +40,4 @@ public class User implements Serializable {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
 }

@@ -1,11 +1,20 @@
 package controllers;
 
 import br.com.rileyframework.ApplicationController;
-import models.User;
+import core.data.users.UserRepository;
+import core.interactors.users.UserListInteractor;
+import core.models.User;
 
 public class UserController extends ApplicationController {
 	{
 		baseUrl("/api/v1");
+		
+		// GET /users
+		get("/users", (request, response) -> {
+			UserListInteractor userList = 
+					new UserListInteractor(new UserRepository());
+			return response.status(200).json(userList.all());
+		});
 		
 		// GET /users/1
 		get("/users/{user_id}", (request, response) -> {
@@ -32,6 +41,5 @@ public class UserController extends ApplicationController {
 			String success = "success";
 			return response.status(200).json(success);
 		});
-		
 	}
 }
