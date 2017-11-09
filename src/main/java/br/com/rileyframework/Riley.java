@@ -11,7 +11,7 @@ import br.com.rileyframework.servers.ServerFactory;
 
 public class Riley {
 
-	private static final String BASE_PACKAGE_CONTROLLERS = "controllers";
+	private static final String BASE_PACKAGE_HTTP = "http";
 	private ServerFactory serverFactory;
 
 	public Riley() {
@@ -24,22 +24,22 @@ public class Riley {
 
 	@SuppressWarnings("rawtypes")
 	public List<Route> registerControllers() throws Exception {
-		Reflections reflections = new Reflections(BASE_PACKAGE_CONTROLLERS);
+		Reflections reflections = new Reflections(BASE_PACKAGE_HTTP);
 		
 		// get all controller of application
-		Set<Class<? extends ApplicationController>> allControllers = reflections.getSubTypesOf(ApplicationController.class);
+		Set<Class<? extends Resource>> allControllers = reflections.getSubTypesOf(Resource.class);
 
 		// list to register urls 
 		List<Route> listRoutes = new ArrayList<Route>();
 		
 		for (Class<?> controller : allControllers) {
-		   Class c = Class.forName(controller.getName());
-			ApplicationController controllerIstanced = (ApplicationController) createNewInstance(c);
+		    Class c = Class.forName(controller.getName());
+			Resource controllerIstanced = (Resource) createNewInstance(c);
 			for (int j = 0; j < controllerIstanced.getRoutes().size(); j++) {
 				listRoutes.add(controllerIstanced.getRoutes().get(j));
 			}
-			
 		}
+		
 		return listRoutes;
 	}
 	

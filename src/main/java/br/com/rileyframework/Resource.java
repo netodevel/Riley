@@ -5,10 +5,17 @@ import java.util.List;
 
 import br.com.rileyframework.utils.GeneratorRegex;
 
-public abstract class ApplicationController {
+public abstract class Resource implements RileyAdapter {
 
 	private List<Route> routes = new ArrayList<Route>();
 	private String baseUrl;
+	
+	public Resource() {
+	}
+	
+	@Override
+	public void main() {
+	}
 	
 	public void get(String route, HttpHandlerRequest handler) {
 		Route routeObj = buildRoute(route, handler, "GET");
@@ -33,10 +40,7 @@ public abstract class ApplicationController {
 	public void baseUrl(String baseUrl) {
 		this.baseUrl = baseUrl;
 	}
-	
-	public ApplicationController() {
-	}
-	
+		
 	private Route buildRoute(String route, HttpHandlerRequest handler, String httpMethod) {
 		Route routeObj = new Route();
 		String routeFromBase = this.baseUrl != null ? this.baseUrl + route : route;

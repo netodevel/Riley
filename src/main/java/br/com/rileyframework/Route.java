@@ -1,6 +1,6 @@
 package br.com.rileyframework;
 
-import br.com.rileyframework.ApplicationController.HttpHandlerRequest;
+import br.com.rileyframework.Resource.HttpHandlerRequest;
 
 public class Route {
 
@@ -56,8 +56,5 @@ public class Route {
 	public void setRouteRegex(String routeRegex) {
 		this.routeRegex = routeRegex;
 	}
-	
-	
-	
 	
 }

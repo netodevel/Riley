@@ -22,6 +22,12 @@ public abstract class Command implements Observable {
 	    }
 	}
 	
+	public void broadcastSuccess(Object... params) {
+		for (Observer ob : this.observers) {
+	        ob.call(params);
+	    }
+	}
+	
 	public void broadcastFailed() {
 		for (ObserverFail ob : this.observersFail) {
 	        ob.call();
