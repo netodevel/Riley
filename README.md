@@ -73,15 +73,15 @@ public class UserController extends ApplicationController {
 ```java
 public class UserResource extends Resource {
 	
-	{
-		/POST /users
-		post("/users", (request, response) -> {
-			User user = (User) request.body(User.class);
-			return response.status(201).json(user);
-		});
-	}
-}
+  {
+    //POST /users
+    post("/users", (request, response) -> {
+      User user = (User) request.body(User.class);
+      return response.status(201).json(user);
+    });
+  }
 
+}
 ```
 
 ### intParam
