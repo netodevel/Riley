@@ -24,7 +24,7 @@ public class Riley {
 
 	@SuppressWarnings("rawtypes")
 	public List<Route> registerControllers() throws Exception {
-		Reflections reflections = new Reflections(BASE_PACKAGE_HTTP);
+		Reflections reflections = new Reflections("br.com.rileyframework");
 		
 		// get all controller of application
 		Set<Class<? extends Resource>> allControllers = reflections.getSubTypesOf(Resource.class);

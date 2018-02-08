@@ -53,7 +53,7 @@ public abstract class Resource implements RileyAdapter {
 	}
 	
 	public interface HttpHandlerRequest {
-		Response handler(Request request, Response response);
+		Response handler(Request request, Response response) throws InterruptedException;
 	}
 	
 	public List<Route> getRoutes() {
