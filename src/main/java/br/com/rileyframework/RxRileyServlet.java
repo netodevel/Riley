@@ -69,50 +69,16 @@ public class RxRileyServlet extends HttpServlet {
         ObservableServlet.create(in).subscribe(new ReadObserver(req, resp, ac, riley));
     }
 
-    private void doProcess(HttpServletRequest req, HttpServletResponse resp) throws Exception {
-        final String servletPath = req.getServletPath();
-        for (Route route : listRoutes) {
-            if (httpHelper.matchUrl(route.getRouteRegex(), servletPath)) {
-                Request request = null;
-
-                switch (route.getHttpMethod()) {
-                    case "GET":
-                        request = httpHelper.buildRequest(servletPath, route, null);
-                        break;
-                    case "POST":
-                        request = httpHelper.buildRequest(servletPath, route, httpHelper.getBodyRequest(req));
-                        break;
-                    case "PUT":
-                        request = httpHelper.buildRequest(servletPath, route, httpHelper.getBodyRequest(req));
-                        break;
-                    case "DELETE":
-                        request = httpHelper.buildRequest(servletPath, route, null);
-                        break;
-                    default:
-                        resp.setStatus(404);
-                        break;
-                }
-
-                Response response = httpHelper.buildResponse(resp);
-
-                if (route.getHttpMethod().equals(req.getMethod())) {
-                    Response responseCallback = route.getHandler().handler(request, response);
-                    resp.setContentType("application/json");
-                    resp.setStatus(responseCallback.getCode());
-                }
-            }
-        }
-    }
-
     static class ReadObserver implements Observer<ByteBuffer> {
+
         private HttpServletResponse resp;
         private HttpServletRequest req;
         private final AsyncContext ac;
         private final Riley riley;
         private final HttpHelper httpHelper;
-        String path;
+        private String path;
 
-        ReadObserver(HttpServletRequest req, HttpServletResponse resp, AsyncContext ac, Riley riley) {
+        public ReadObserver(HttpServletRequest req, HttpServletResponse resp, AsyncContext ac, Riley riley) {
             this.req = req;
             this.resp = resp;
             this.ac = ac;

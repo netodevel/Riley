@@ -23,8 +23,6 @@ public class UserController extends Resource {
         get("/users4", (req, res) -> {
             return res.json("na hora!").status(200);
         });
-
-
     }
 
 }
