@@ -55,31 +55,19 @@ public class RxRileyServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
-//        resp.setStatus(200);
-//        PrintWriter pw = resp.getWriter();
-//        pw.write("Working ...");
-//        pw.flush();
-
-        try {
-             doProcess(req, resp);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        AsyncContext ac = req.startAsync();
+        ServletInputStream in = req.getInputStream();
+        System.out.println(req.getServletPath());
+        ObservableServlet.create(in).subscribe(new ReadObserver(req, resp, ac, riley).setServletPath(req.getServletPath()));
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, final HttpServletResponse resp)
-            throws ServletException, IOException {
-
+    protected void doPost(HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {
         AsyncContext ac = req.startAsync();
         ServletInputStream in = req.getInputStream();
-        ObservableServlet.create(in).subscribe(new ReadObserver(resp, ac));
-
-        //ObservableServlet.create(in).finallyDo(new WriteObserver(ac)).subscribe(new ReadObserver(resp, ac));
+        ObservableServlet.create(in).subscribe(new ReadObserver(req, resp, ac, riley));
     }
-
 
     private void doProcess(HttpServletRequest req, HttpServletResponse resp) throws Exception {
         final String servletPath = req.getServletPath();
@@ -116,31 +104,52 @@ public class RxRileyServlet extends HttpServlet {
         }
     }
 
-
     static class ReadObserver implements Observer<ByteBuffer> {
-        private final HttpServletResponse resp;
+        private HttpServletResponse resp;
+        private HttpServletRequest req;
         private final AsyncContext ac;
+        private final Riley riley;
+        private final HttpHelper httpHelper;
+        String path;
 
-        ReadObserver(HttpServletResponse resp, AsyncContext ac) {
+        ReadObserver(HttpServletRequest req, HttpServletResponse resp, AsyncContext ac, Riley riley) {
+            this.req = req;
             this.resp = resp;
             this.ac = ac;
+            this.riley = riley;
+            this.httpHelper = new HttpHelper();
         }
 
         @Override
         public void onCompleted() {
-            System.out.println("Read onCompleted=" + Thread.currentThread());
-            resp.setStatus(HttpServletResponse.SC_OK);
-
-            Observable<ByteBuffer> data = data();
-            ServletOutputStream out = null;
+            Observable<Route> routersObservable = null;
             try {
-                out = resp.getOutputStream();
-            } catch (IOException ioe) {
-                ioe.printStackTrace();
+                routersObservable = Observable.from(riley.registerControllers());
+                routersObservable.filter( r -> { return r.getHttpMethod().equals("GET"); })
+                        .filter( r -> { return httpHelper.matchUrl(r.getRouteRegex(), path); })
+                        .forEach( route -> { delegateRequest(route); });
+            } catch (Exception e) {
+                e.printStackTrace();
             }
+        }
 
-            Observable<Void> writeStatus = ObservableServlet.write(data, out);
-            writeStatus.subscribe(new WriteObserver(ac));
+        private void delegateRequest(Route route) {
+            Request request = null;
+            request = httpHelper.buildRequest(path, route, null);
+
+            Response response = null;
+            try {
+                response = httpHelper.buildResponse(resp);
+                if (route.getHttpMethod().equals(req.getMethod())) {
+                    Response responseCallback = route.getHandler().handler(request, response);
+                    resp.setContentType("application/json");
+                    resp.setStatus(responseCallback.getCode());
+                    ac.complete();
+                    System.out.println("Read onCompleted=" + Thread.currentThread());
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         @Override
@@ -151,8 +160,6 @@ public class RxRileyServlet extends HttpServlet {
 
         @Override
         public void onNext(ByteBuffer buf) {
-            //Thread.dumpStack();
-            //System.out.println("read onNext=" + Thread.currentThread());
         }
 
         Observable<ByteBuffer> data() {
@@ -161,6 +168,11 @@ public class RxRileyServlet extends HttpServlet {
                 data[i] = ByteBuffer.wrap((i+"0000000000000\n").getBytes());
             }
             return Observable.from(data);
+        }
+
+        public ReadObserver setServletPath(String path) {
+            this.path = path;
+            return this;
         }
     }
 
@@ -185,8 +197,6 @@ public class RxRileyServlet extends HttpServlet {
 
         @Override
         public void onNext(Void args) {
-            //System.out.println("Composite Write onNext");
-            // no-op
         }
     }
 
