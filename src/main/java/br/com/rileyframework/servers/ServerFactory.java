@@ -1,8 +1,7 @@
 package br.com.rileyframework.servers;
 
 /**
- * define engine server embedded
- * 
+ * define server embedded
  * @author neto
  */
 public class ServerFactory {
@@ -13,15 +12,11 @@ public class ServerFactory {
 	 * @throws Exception
 	 */
 	public void create(String typeServer) throws Exception {
-		switch (typeServer) {
-		case Servers.JETTY:
+		if (Servers.JETTY.equals(typeServer)) {
 			JettyServer.init();
-			break;
-
-		default:
-			throw new Exception("Engine not implemented");
+		} else {
+			throw new Exception("server not implemented");
 		}
-		
 	}
 	
 }
