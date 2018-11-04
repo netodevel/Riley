@@ -1,9 +1,9 @@
 package br.com.rileyframework;
 
+import br.com.rileyframework.utils.GeneratorRegex;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import br.com.rileyframework.utils.GeneratorRegex;
 
 public abstract class Resource implements RileyAdapter {
 
