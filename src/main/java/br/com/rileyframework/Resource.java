@@ -1,7 +1,5 @@
 package br.com.rileyframework;
 
-import br.com.rileyframework.utils.GeneratorRegex;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,20 +40,19 @@ public abstract class Resource implements RileyAdapter {
 	}
 		
 	private Route buildRoute(String route, HttpHandlerRequest handler, String httpMethod) {
-		Route routeObj = new Route();
-		String routeFromBase = this.baseUrl != null ? this.baseUrl + route : route;
-
-		routeObj.setRoute(routeFromBase);
-		routeObj.setHandler(handler);
-		routeObj.setHttpMethod(httpMethod);
-		routeObj.setRouteRegex(GeneratorRegex.generatorRegexFromUrl(routeFromBase));
-		return routeObj;
+		String finalRoute = this.baseUrl != null ? this.baseUrl.concat(route) : route;
+		return Route.builder()
+				.route(finalRoute)
+				.handler(handler)
+				.httpMethod(httpMethod)
+				.routeRegex(finalRoute)
+				.build();
 	}
 	
 	public interface HttpHandlerRequest {
 		Response handler(Request request, Response response);
 	}
-	
+
 	public List<Route> getRoutes() {
 		return routes;
 	}
@@ -63,5 +60,5 @@ public abstract class Resource implements RileyAdapter {
 	public void setRoutes(List<Route> routes) {
 		this.routes = routes;
 	}
-	
+
 }
