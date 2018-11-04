@@ -7,11 +7,11 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
+import static br.com.rileyframework.helpers.RequestHelper.getBodyRequest;
+import static br.com.rileyframework.helpers.RequestHelper.matchUrl;
 
 public class RileyServlet extends HttpServlet {
 
@@ -26,7 +26,7 @@ public class RileyServlet extends HttpServlet {
 		httpVerbProcessor = new HttpVerbProcessor();
 		listRoutes = riley.registerControllers();
 	}
-	
+
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		try {
@@ -44,7 +44,7 @@ public class RileyServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Override
 	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		try {
@@ -53,7 +53,7 @@ public class RileyServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Override
 	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		try {
@@ -67,39 +67,10 @@ public class RileyServlet extends HttpServlet {
 		final String servletPath = req.getServletPath();
 		for (Route route : listRoutes) {
 			if (matchUrl(route.getRouteRegex(), servletPath)) {
-
-				Request request = httpVerbProcessor.execute(route.getHttpMethod(), servletPath,
-						route, getBodyRequest(req));
-
-				Response response = Response.builder()
-						.printWriter(resp.getWriter())
-						.build();
-				
-				if (route.getHttpMethod().equals(req.getMethod())) {
-					Response responseCallback = route.getHandler().handler(request, response);
-					resp.setContentType("application/json");
-					resp.setStatus(responseCallback.getCode());
-				}
+				Request request = httpVerbProcessor.execute(route.getHttpMethod(), servletPath, route, getBodyRequest(req));
+				httpVerbProcessor.makeResponse(route, request, req, resp);
 			}
 		}
 	}
 
-	public boolean matchUrl(String regex, String urlOrigin) {
-		Pattern p = Pattern.compile(regex);
-	    Matcher m = p.matcher(urlOrigin);
-		return m.matches();
-	}
-	
-	public String getBodyRequest(HttpServletRequest request) {
-		StringBuffer jb = new StringBuffer();
-		String line = null;
-		try {
-			BufferedReader reader = request.getReader();
-			while ((line = reader.readLine()) != null)
-				jb.append(line);
-		} catch (Exception e) { /*report an error*/ }
-
-		return jb.toString();
-	}
-	
 }

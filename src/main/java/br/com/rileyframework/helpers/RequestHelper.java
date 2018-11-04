@@ -1,6 +1,10 @@
 package br.com.rileyframework.helpers;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.BufferedReader;
 import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class RequestHelper {
 
@@ -27,6 +31,24 @@ public class RequestHelper {
             }
         }
         return pathVariables;
+    }
+
+    public static boolean matchUrl(String regex, String urlOrigin) {
+        Pattern p = Pattern.compile(regex);
+        Matcher m = p.matcher(urlOrigin);
+        return m.matches();
+    }
+
+    public static String getBodyRequest(HttpServletRequest request) {
+        StringBuffer jb = new StringBuffer();
+        String line = null;
+        try {
+            BufferedReader reader = request.getReader();
+            while ((line = reader.readLine()) != null)
+                jb.append(line);
+        } catch (Exception e) { /*report an error*/ }
+
+        return jb.toString();
     }
 
 }
