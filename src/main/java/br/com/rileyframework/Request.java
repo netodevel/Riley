@@ -1,11 +1,13 @@
 package br.com.rileyframework;
 
 import com.google.gson.Gson;
+import lombok.Builder;
 import lombok.Data;
 
 import java.util.Map;
 
 @Data
+@Builder
 public class Request {
 
 	private Map<String, String> pathVariables;

@@ -1,11 +1,13 @@
 package br.com.rileyframework;
 
 import com.google.gson.Gson;
+import lombok.Builder;
 import lombok.Data;
 
 import java.io.PrintWriter;
 
 @Data
+@Builder
 public class Response {
 	
 	private PrintWriter printWriter;
