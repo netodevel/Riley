@@ -1,13 +1,14 @@
 package br.com.rileyframework;
 
+import com.google.gson.Gson;
+import lombok.Data;
+
 import java.io.PrintWriter;
 
-import com.google.gson.Gson;
-
+@Data
 public class Response {
 	
 	private PrintWriter printWriter;
-	
 	private int code;
 	
 	public Response json(Object object) {
@@ -17,14 +18,6 @@ public class Response {
 		return this;
 	}
 
-	public PrintWriter getPrintWriter() {
-		return printWriter;
-	}
-
-	public void setPrintWriter(PrintWriter printWriter) {
-		this.printWriter = printWriter;
-	}
-	
 	public Response status(int code) {
 		this.setCode(code);
 		return this;

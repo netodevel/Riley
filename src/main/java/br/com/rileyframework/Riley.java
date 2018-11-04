@@ -11,7 +11,6 @@ import java.util.Set;
 
 public class Riley {
 
-	private static final String BASE_PACKAGE_HTTP = "http";
 	private ServerFactory serverFactory;
 	private SetupLoader setupLoader;
 	private List<Route> listRoutes;
