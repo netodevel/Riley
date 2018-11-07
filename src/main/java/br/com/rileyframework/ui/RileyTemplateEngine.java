@@ -3,13 +3,14 @@ package br.com.rileyframework.ui;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class RileyTemplateEngine {
 
     private static final String REGEX_PATTERN_HVAR = ("(\\{(\\w+)\\})+");
-    private HashMap<String, Object> viewAttributes;
+    private Map<String, Object> viewAttributes;
 
     public String format(String row) {
         String lineValue = "Hello, ";
@@ -17,7 +18,7 @@ public class RileyTemplateEngine {
         return lineValue.concat((String) viewAttributes.get(hvar));
     }
 
-    public RileyTemplateEngine modelAndView(HashMap<String, Object> viewAttributes) {
+    public RileyTemplateEngine modelAndView(Map<String, Object> viewAttributes) {
         this.viewAttributes = viewAttributes;
         return this;
     }
@@ -32,4 +33,11 @@ public class RileyTemplateEngine {
         }
         return hVarsResult;
     }
+
+    public HashMap<String, Object> hVarToValue(List<String> hVars) {
+        HashMap<String, Object> hashToReturned = new HashMap<>();
+        hashToReturned.put(hVars.get(0), viewAttributes.get(hVars.get(0)));
+        return hashToReturned;
+    }
+
 }
