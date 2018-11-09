@@ -13,14 +13,14 @@ public class RileyTemplateEngineTest {
 
     @Test
     public void dado_um_html_com_hvars_deve_retornar_html_gerado() {
-        String hvar = "Hello, {{var}}";
+        String htmlPuro = "Hello, {var}";
 
         HashMap<String, Object> viewAttributes = new HashMap<>();
-        viewAttributes.put("var", "Neto");
+        viewAttributes.put("{var}", "Neto");
 
         String htmlResult = new RileyTemplateEngine()
                 .modelAndView(viewAttributes)
-                .format(hvar);
+                .format(htmlPuro);
 
         assertEquals("Hello, Neto", htmlResult);
     }
@@ -35,6 +35,7 @@ public class RileyTemplateEngineTest {
     @Test
     public void dado_uma_lista_de_hvars_deve_retornar_um_map_com_valores() {
         List<String> hVars = Arrays.asList("world");
+
         Map<String, Object> modelAndView = new HashMap<>();
         modelAndView.put("world", "World");
 

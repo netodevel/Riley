@@ -12,10 +12,16 @@ public class RileyTemplateEngine {
     private static final String REGEX_PATTERN_HVAR = ("(\\{(\\w+)\\})+");
     private Map<String, Object> viewAttributes;
 
-    public String format(String row) {
-        String lineValue = "Hello, ";
-        String hvar = "var";
-        return lineValue.concat((String) viewAttributes.get(hvar));
+    public String format(String htmlPuroAntesDoServerSide) {
+        List<String> hvars = hVars(htmlPuroAntesDoServerSide);
+        HashMap<String, Object> convertHvarEmValores = hVarToValue(hvars);
+
+        String htmlResult = new String();
+        for (String hvar : convertHvarEmValores.keySet()) {
+            htmlPuroAntesDoServerSide = htmlPuroAntesDoServerSide.replace(hvar, (String) convertHvarEmValores.get(hvar));
+            htmlResult = htmlPuroAntesDoServerSide;
+        }
+        return htmlResult;
     }
 
     public RileyTemplateEngine modelAndView(Map<String, Object> viewAttributes) {
