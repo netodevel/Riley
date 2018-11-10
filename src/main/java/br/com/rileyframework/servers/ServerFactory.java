@@ -1,5 +1,7 @@
 package br.com.rileyframework.servers;
 
+import br.com.rileyframework.server.RileyServerException;
+
 /**
  * define server embedded
  * @author neto
@@ -15,7 +17,13 @@ public class ServerFactory {
 		if (Servers.JETTY.equals(typeServer)) {
 			JettyServer.init();
 		} else {
-			throw new Exception("server not implemented");
+			throw new RileyServerException("server not implemented");
+		}
+	}
+
+	public void shutdownServer(String typeServer) throws Exception {
+		if (Servers.JETTY.equals(typeServer)) {
+			JettyServer.shutdown();
 		}
 	}
 	

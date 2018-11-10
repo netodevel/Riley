@@ -1,12 +1,12 @@
 package br.com.rileyframework.sample;
 
 import br.com.rileyframework.Riley;
-import br.com.rileyframework.servers.Servers;
+import br.com.rileyframework.server.RileyServer;
 
 public class RileyApplication {
 
     public static void main(String[] args) throws Exception {
-        new Riley().init(Servers.JETTY);
+        new Riley().init(new RileyServer());
     }
 
 }

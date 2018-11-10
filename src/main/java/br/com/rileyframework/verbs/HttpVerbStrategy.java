@@ -6,5 +6,4 @@ import br.com.rileyframework.Route;
 public interface HttpVerbStrategy {
 
     Request createRequest(final String servletPath, Route route, String body);
-
 }
