@@ -1,4 +1,4 @@
-package br.com.rileyframework.br.com.rileyframework.server;
+package br.com.rileyframework.server;
 
 import br.com.rileyframework.servers.ServerFactory;
 import br.com.rileyframework.servers.Servers;

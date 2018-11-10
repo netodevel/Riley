@@ -1,6 +1,6 @@
 package br.com.rileyframework.servers;
 
-import br.com.rileyframework.br.com.rileyframework.server.RileyServerException;
+import br.com.rileyframework.server.RileyServerException;
 
 /**
  * define server embedded

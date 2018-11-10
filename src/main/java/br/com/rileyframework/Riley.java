@@ -1,13 +1,12 @@
 package br.com.rileyframework;
 
-import br.com.rileyframework.br.com.rileyframework.server.RileyServer;
-import br.com.rileyframework.br.com.rileyframework.server.RileyServerException;
+import br.com.rileyframework.server.RileyServer;
+import br.com.rileyframework.server.RileyServerException;
 import br.com.rileyframework.servers.ServerFactory;
 import br.com.rileyframework.servers.Servers;
 import br.com.rileyframework.utils.SetupLoader;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.Singular;
 import org.reflections.Reflections;
 
 import java.lang.reflect.Constructor;

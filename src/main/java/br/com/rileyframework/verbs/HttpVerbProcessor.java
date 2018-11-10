@@ -4,6 +4,7 @@ import br.com.rileyframework.Request;
 import br.com.rileyframework.Response;
 import br.com.rileyframework.Route;
 import br.com.rileyframework.exceptions.RileyException;
+import br.com.rileyframework.ui.RileyTemplateEngine;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,6 +29,20 @@ public class HttpVerbProcessor {
         if (route.getHttpMethod().equals(req.getMethod())) {
             Response responseOfRoute = route.getHandler().handler(request, response);
             resp.setContentType("application/json");
+            resp.setStatus(responseOfRoute.getCode());
+        }
+    }
+
+    public void makeResponseHtml(Route route, Request request, HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        Response response = Response.builder().printWriter(resp.getWriter()).build();
+        if (route.getHttpMethod().equals(req.getMethod())) {
+            Response responseOfRoute = route.getHandler().handler(request, response);
+
+            String htmlGerado = new RileyTemplateEngine()
+                    .modelAndView(response.getModelAndView())
+                    .format(response.getHtml());
+
+            resp.getWriter().print(htmlGerado);
             resp.setStatus(responseOfRoute.getCode());
         }
     }

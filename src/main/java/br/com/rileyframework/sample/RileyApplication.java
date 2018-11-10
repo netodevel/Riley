@@ -1,8 +1,7 @@
 package br.com.rileyframework.sample;
 
 import br.com.rileyframework.Riley;
-import br.com.rileyframework.br.com.rileyframework.server.RileyServer;
-import br.com.rileyframework.servers.Servers;
+import br.com.rileyframework.server.RileyServer;
 
 public class RileyApplication {
 

@@ -1,8 +1,6 @@
 package br.com.rileyframework.server;
 
 import br.com.rileyframework.Riley;
-import br.com.rileyframework.br.com.rileyframework.server.RileyServer;
-import br.com.rileyframework.br.com.rileyframework.server.RileyServerException;
 import org.junit.After;
 import org.junit.Test;
 

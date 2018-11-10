@@ -68,7 +68,9 @@ public class RileyServlet extends HttpServlet {
 		for (Route route : riley.getRoutes()) {
 			if (matchUrl(route.getRouteRegex(), servletPath)) {
 				Request request = httpVerbProcessor.execute(route.getHttpMethod(), servletPath, route, getBodyRequest(req));
-				httpVerbProcessor.makeResponse(route, request, req, resp);
+
+				if (route.getType() == null && route.getType() != "HTML") httpVerbProcessor.makeResponse(route, request, req, resp);
+				if (route.getType() != null && route.getType() == "HTML") httpVerbProcessor.makeResponseHtml(route, request, req, resp);
 			}
 		}
 	}

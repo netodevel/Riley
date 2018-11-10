@@ -14,5 +14,6 @@ public class Route {
 	private HttpHandlerRequest handler;
 	private String httpMethod;
 	private String routeRegex;
+	private String type;
 
 }

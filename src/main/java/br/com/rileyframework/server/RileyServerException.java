@@ -1,4 +1,4 @@
-package br.com.rileyframework.br.com.rileyframework.server;
+package br.com.rileyframework.server;
 
 public class RileyServerException extends RuntimeException {
 

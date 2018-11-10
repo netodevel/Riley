@@ -1,6 +1,6 @@
 package br.com.rileyframework;
 
-import br.com.rileyframework.br.com.rileyframework.server.RileyServer;
+import br.com.rileyframework.server.RileyServer;
 import br.com.rileyframework.utils.GeneratorRegex;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
