@@ -13,6 +13,9 @@ public class RileyTemplateEngine {
     private Map<String, Object> viewAttributes;
 
     public String format(String htmlPuroAntesDoServerSide) {
+        if (htmlPuroAntesDoServerSide == null) throw new TemplateEngineException("html can not be null");
+        if (htmlPuroAntesDoServerSide.isEmpty()) throw new TemplateEngineException("html can not be empty");
+
         List<String> hvars = hVars(htmlPuroAntesDoServerSide);
         HashMap<String, Object> convertHvarEmValores = hVarToValue(hvars);
 
@@ -25,6 +28,7 @@ public class RileyTemplateEngine {
     }
 
     public RileyTemplateEngine modelAndView(Map<String, Object> viewAttributes) {
+        if (viewAttributes == null) throw new TemplateEngineException("view model can not be null");
         this.viewAttributes = viewAttributes;
         return this;
     }

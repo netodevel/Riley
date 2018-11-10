@@ -25,6 +25,24 @@ public class RileyTemplateEngineTest {
         assertEquals("Hello, Neto", htmlResult);
     }
 
+    @Test(expected = TemplateEngineException.class)
+    public void dado_um_model_and_view_nulo_deve_lancar_excecao() {
+        RileyTemplateEngine rileyTemplateEngine = new RileyTemplateEngine();
+        rileyTemplateEngine.modelAndView(null);
+    }
+
+    @Test(expected = TemplateEngineException.class)
+    public void dado_um_html_nulo_deve_lancar_excecao(){
+        RileyTemplateEngine rileyTemplateEngine = new RileyTemplateEngine();
+        rileyTemplateEngine.modelAndView(new HashMap<String, Object>()).format(null);
+    }
+
+    @Test(expected = TemplateEngineException.class)
+    public void dado_um_html_vazio_deve_lancar_excecao(){
+        RileyTemplateEngine rileyTemplateEngine = new RileyTemplateEngine();
+        rileyTemplateEngine.modelAndView(new HashMap<String, Object>()).format("");
+    }
+
     @Test
     public void dado_um_html_deve_retornar_todas_hvar() {
         String html = " <h1>Hello {{world}} </h1>";
