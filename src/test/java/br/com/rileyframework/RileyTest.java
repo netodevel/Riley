@@ -1,5 +1,6 @@
 package br.com.rileyframework;
 
+import br.com.rileyframework.exceptions.RileyException;
 import br.com.rileyframework.utils.GeneratorRegex;
 import org.junit.Before;
 import org.junit.Test;

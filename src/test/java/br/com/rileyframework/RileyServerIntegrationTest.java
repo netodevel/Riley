@@ -1,0 +1,46 @@
+package br.com.rileyframework;
+
+import br.com.rileyframework.server.JettyServer;
+import org.junit.Test;
+
+import static junit.framework.TestCase.assertTrue;
+import static org.junit.Assert.assertEquals;
+
+public class RileyServerIntegrationTest {
+
+    private static final Riley riley = Riley.getInstance();
+
+    @Test
+    public void dado_um_server_com_boundary_deve_startar_o_server() throws Exception {
+        JettyServer jettyServer = JettyServer.builder().build();
+
+        riley.configureServer(jettyServer);
+        riley.start();
+
+        assertTrue(riley.getServer().getIsStaterd());
+
+        riley.shutDown();
+    }
+
+    @Test
+    public void dado_um_server_sem_declarar_porta_com_boundary_deve_startar_na_porta_3000() throws Exception {
+        JettyServer jettyServer = JettyServer.builder().build();
+
+        riley.configureServer(jettyServer);
+        riley.start();
+
+        assertEquals((Integer) 3000, riley.getServer().getPort());
+
+        riley.shutDown();
+    }
+
+    @Test
+    public void dado_configure_server_nullo_deve_startar_jetty_como_default() throws Exception {
+        riley.start();
+
+        assertTrue(riley.getServer().getIsStaterd());
+
+        riley.shutDown();
+    }
+
+}

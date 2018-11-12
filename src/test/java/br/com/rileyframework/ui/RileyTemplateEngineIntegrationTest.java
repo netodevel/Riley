@@ -2,7 +2,6 @@ package br.com.rileyframework.ui;
 
 import br.com.rileyframework.Riley;
 import br.com.rileyframework.Route;
-import br.com.rileyframework.server.RileyServer;
 import br.com.rileyframework.utils.GeneratorRegex;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -23,11 +22,10 @@ import static org.junit.Assert.assertEquals;
 public class RileyTemplateEngineIntegrationTest {
 
     private static final Riley riley = Riley.getInstance();
-    private static final RileyServer rileyServer = new RileyServer();
 
     @BeforeClass
-    public static void setUp() {
-        riley.init(rileyServer);
+    public static void setUp() throws Exception {
+        riley.start();
     }
 
     @Test
@@ -65,7 +63,7 @@ public class RileyTemplateEngineIntegrationTest {
 
     @AfterClass
     public static void afterDown() throws Exception {
-        rileyServer.shutDown();
+        riley.shutDown();
     }
 
 }

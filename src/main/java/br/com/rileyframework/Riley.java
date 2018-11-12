@@ -1,9 +1,8 @@
 package br.com.rileyframework;
 
-import br.com.rileyframework.server.RileyServer;
-import br.com.rileyframework.server.RileyServerException;
-import br.com.rileyframework.servers.ServerFactory;
-import br.com.rileyframework.servers.Servers;
+import br.com.rileyframework.exceptions.RileyException;
+import br.com.rileyframework.server.ConfigureServerAdapter;
+import br.com.rileyframework.server.JettyServer;
 import br.com.rileyframework.utils.SetupLoader;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,13 +15,11 @@ import java.util.Set;
 
 public class Riley {
 
-	private SetupLoader setupLoader;
-
-	@Getter
-	@Setter
+	@Getter @Setter
 	private List<Route> routes;
-
+	private ConfigureServerAdapter configureServerAdapter;
 	private static Riley instance;
+	private SetupLoader setupLoader;
 
 	public static synchronized Riley getInstance(){
 		if (instance == null){
@@ -79,13 +76,28 @@ public class Riley {
 		routes.add(route);
 	}
 
-	public void init(RileyServer rileyServer) {
-		try {
-			rileyServer.setServerFactory(new ServerFactory());
-			rileyServer.startup(rileyServer.getServer() != null ? rileyServer.getServer() : Servers.JETTY);
-		} catch (Exception e) {
-			throw new RileyServerException(e.getMessage());
-		}
+	public void configureServer(ConfigureServerAdapter configureServerAdapter) {
+		this.configureServerAdapter = configureServerAdapter;
+	}
+
+	public void start() throws Exception {
+		if (configureServerAdapter == null) configureServerAdapter = getServerDefault();
+		this.configureServerAdapter.start();
+	}
+
+	private ConfigureServerAdapter getServerDefault() {
+		return JettyServer.builder().build();
+	}
+
+	public void shutDown() throws Exception {
+		this.configureServerAdapter.shutDown();
+	}
+
+	public Server getServer() {
+		Server server = new Server();
+		server.setPort(configureServerAdapter.port());
+		server.setIsStaterd(configureServerAdapter.isStarted());
+		return server;
 	}
 
 }

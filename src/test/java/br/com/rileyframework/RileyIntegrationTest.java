@@ -1,6 +1,5 @@
 package br.com.rileyframework;
 
-import br.com.rileyframework.server.RileyServer;
 import br.com.rileyframework.utils.GeneratorRegex;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -20,11 +19,10 @@ import static org.junit.Assert.assertEquals;
 public class RileyIntegrationTest {
 
     private static final Riley riley = Riley.getInstance();
-    private static RileyServer rileyServer = new RileyServer();
 
     @BeforeClass
     public static void setUp() throws Exception {
-        riley.init(rileyServer);
+        riley.start();
     }
 
     @Test
@@ -72,7 +70,7 @@ public class RileyIntegrationTest {
 
     @AfterClass
     public static void tearDown() throws Exception {
-        rileyServer.shutDown();
+        riley.shutDown();
     }
 
 }
