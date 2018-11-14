@@ -1,8 +1,6 @@
 package br.com.rileyframework;
 
-import br.com.rileyframework.exceptions.RileyException;
 import br.com.rileyframework.utils.GeneratorRegex;
-import org.junit.Before;
 import org.junit.Test;
 
 import static java.util.Arrays.asList;
@@ -10,12 +8,7 @@ import static org.junit.Assert.assertEquals;
 
 public class RileyTest {
 
-    private Riley riley;
-
-    @Before
-    public void setUp() {
-        riley = new Riley();
-    }
+    private static final Riley riley = Riley.getInstance();
 
     @Test
     public void dado_uma_lista_de_rotas_deve_retornar_todas_rotas() {
@@ -32,7 +25,6 @@ public class RileyTest {
                 .handler((request, response) -> response.json("home").status(200))
                 .routeRegex(GeneratorRegex.generatorRegexFromUrl("/home"))
                 .build();
-
 
         riley.setRoutes(asList(route, routeTwo));
         assertEquals(riley.getRoutes().size(), 2);

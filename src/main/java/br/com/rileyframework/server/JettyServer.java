@@ -34,6 +34,7 @@ public class JettyServer implements ConfigureServerAdapter {
 
 	@Override
 	public void shutDown() throws Exception {
+		if (!isStarted()) throw new RileyServerException("Server not started");
 		server.stop();
 	}
 
@@ -44,6 +45,7 @@ public class JettyServer implements ConfigureServerAdapter {
 
 	@Override
 	public Boolean isStarted() {
+		if (server == null) return false;
 		return server.isStarted();
 	}
 

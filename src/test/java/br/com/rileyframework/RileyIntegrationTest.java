@@ -5,12 +5,11 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClientBuilder;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 
 import static java.util.Arrays.asList;
@@ -20,13 +19,13 @@ public class RileyIntegrationTest {
 
     private static final Riley riley = Riley.getInstance();
 
-    @BeforeClass
-    public static void setUp() throws Exception {
+    @Before
+    public void setUp() throws Exception {
         riley.start();
     }
 
     @Test
-    public void dado_uma_rota_rest_deve_retornar_status_200() throws InterruptedException, IOException {
+    public void dado_uma_rota_rest_deve_retornar_status_200() throws Exception {
         Route route = Route.builder()
                 .httpMethod("GET")
                 .route("/json")
@@ -44,7 +43,7 @@ public class RileyIntegrationTest {
     }
 
     @Test
-    public void dado_uma_rota_rest_deve_retonar_um_json() throws IOException {
+    public void dado_uma_rota_rest_deve_retonar_um_json() throws Exception {
         Route route = Route.builder()
                 .httpMethod("GET")
                 .route("/json")
@@ -68,8 +67,8 @@ public class RileyIntegrationTest {
         assertEquals("\"hello world\"", result.toString());
     }
 
-    @AfterClass
-    public static void tearDown() throws Exception {
+    @After
+    public void tearDown() throws Exception {
         riley.shutDown();
     }
 
