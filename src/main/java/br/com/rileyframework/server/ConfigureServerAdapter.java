@@ -9,11 +9,11 @@ public interface ConfigureServerAdapter {
 
     void start() throws Exception;
     void shutDown() throws Exception;
-
     default Servlet servlet() {
         return new RileyServlet(Riley.getInstance());
     }
-
+    default Boolean isStarted(){
+        return false;
+    }
     Integer port();
-    Boolean isStarted();
 }

@@ -1,8 +1,8 @@
 package br.com.rileyframework;
 
-import br.com.rileyframework.exceptions.RileyException;
 import br.com.rileyframework.server.ConfigureServerAdapter;
 import br.com.rileyframework.server.JettyServer;
+import br.com.rileyframework.server.RileyServerException;
 import br.com.rileyframework.utils.SetupLoader;
 import lombok.Getter;
 import lombok.Setter;
@@ -81,22 +81,39 @@ public class Riley {
 	}
 
 	public void start() throws Exception {
-		if (configureServerAdapter == null) configureServerAdapter = getServerDefault();
+		if (this.configureServerAdapter == null) {
+			this.configureServerAdapter = getServerDefault();
+		}
+		validateServer();
 		this.configureServerAdapter.start();
 	}
 
-	private ConfigureServerAdapter getServerDefault() {
-		return JettyServer.builder().build();
+	public void validateServer() {
+		if (this.configureServerAdapter.port() == null){
+			this.configureServerAdapter = null;
+			throw new IllegalArgumentException("Port can not be null");
+		}
+	}
+
+	protected ConfigureServerAdapter getServerDefault() {
+		return JettyServer.builder().jettyPort(3000).build();
 	}
 
 	public void shutDown() throws Exception {
+		if (isNotValidToShutdownServer()) throw new RileyServerException("Server not started");
 		this.configureServerAdapter.shutDown();
+		this.configureServerAdapter = null;
+	}
+
+	private boolean isNotValidToShutdownServer() {
+		if (this.configureServerAdapter == null || !configureServerAdapter.isStarted()) return true;
+		return false;
 	}
 
 	public Server getServer() {
 		Server server = new Server();
-		server.setPort(configureServerAdapter.port());
-		server.setIsStaterd(configureServerAdapter.isStarted());
+		server.setPort(this.configureServerAdapter.port());
+		server.setIsStaterd(this.configureServerAdapter.isStarted());
 		return server;
 	}
 
