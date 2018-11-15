@@ -1,8 +1,10 @@
 package br.com.rileyframework;
 
-import br.com.rileyframework.server.ConfigureServerAdapter;
-import br.com.rileyframework.server.RileyServerException;
+import com.riley.server.ConfigureServerAdapter;
+import com.riley.server.RileyServerException;
 import org.junit.Test;
+
+import javax.servlet.Servlet;
 
 public class RileyServerUnitTest {
 
@@ -25,7 +27,17 @@ public class RileyServerUnitTest {
             }
 
             @Override
+            public Boolean isStarted() {
+                return false;
+            }
+
+            @Override
             public Integer port() {
+                return null;
+            }
+
+            @Override
+            public Servlet servlet() {
                 return null;
             }
         };
@@ -33,4 +45,36 @@ public class RileyServerUnitTest {
         riley.configureServer(configureServerAdapter);
         riley.start();
     }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void dado_um_servidor_customizado_com_servlet_nulo_deve_lancar_excecao() throws Exception {
+        ConfigureServerAdapter configureServerAdapter = new ConfigureServerAdapter() {
+            @Override
+            public void start() throws Exception {
+            }
+
+            @Override
+            public void shutDown() throws Exception {
+            }
+
+            @Override
+            public Boolean isStarted() {
+                return false;
+            }
+
+            @Override
+            public Integer port() {
+                return 3000;
+            }
+
+            @Override
+            public Servlet servlet() {
+                return null;
+            }
+        };
+
+        riley.configureServer(configureServerAdapter);
+        riley.start();
+    }
+
 }

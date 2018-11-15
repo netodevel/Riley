@@ -1,4 +1,4 @@
-package br.com.rileyframework.server;
+package com.riley.server;
 
 import lombok.Builder;
 import lombok.Data;
@@ -9,6 +9,8 @@ import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 
+import javax.servlet.Servlet;
+
 @Data
 @Builder
 public class JettyServer implements ConfigureServerAdapter {
@@ -16,6 +18,7 @@ public class JettyServer implements ConfigureServerAdapter {
 	private static final Integer DEFAULT_PORT = 3000;
 	private Server server;
 	private Integer jettyPort;
+	private Servlet servlet;
 
 	@Override
 	public void start() throws Exception {
@@ -25,6 +28,7 @@ public class JettyServer implements ConfigureServerAdapter {
 		ServletContextHandler sch = new ServletContextHandler(ServletContextHandler.SESSIONS);
 		sch.setContextPath("/");
 
+		if (servlet() == null) throw new RileyServerException("Servlet não pode ser nulo");
 		sch.addServlet(new ServletHolder(servlet()), "/");
 
 		handlers.setHandlers(new Handler[] { sch, new DefaultHandler() });
@@ -41,6 +45,11 @@ public class JettyServer implements ConfigureServerAdapter {
 	@Override
 	public Integer port() {
 		return getServerPort();
+	}
+
+	@Override
+	public Servlet servlet() {
+		return servlet;
 	}
 
 	@Override
