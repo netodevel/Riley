@@ -1,6 +1,6 @@
 package com.example.server;
 
-import br.com.rileyframework.server.ConfigureServerAdapter;
+import com.riley.server.ConfigureServerAdapter;
 import lombok.Builder;
 import lombok.Data;
 import org.apache.catalina.Context;
@@ -24,7 +24,7 @@ public class TomcatCustom implements ConfigureServerAdapter {
         String docBase = new File(".").getAbsolutePath();
 
         Context context = tomcat.addContext(contextPath, docBase);
-        tomcat.addServlet("/", "riley_servlet", servlet());
+        //tomcat.addServlet("/", "riley_servlet", servlet());
         context.addServletMappingDecoded("/", "riley_servlet");
 
         tomcat.start();

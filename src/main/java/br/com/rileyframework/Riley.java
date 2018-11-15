@@ -1,9 +1,9 @@
 package br.com.rileyframework;
 
-import br.com.rileyframework.server.ConfigureServerAdapter;
-import br.com.rileyframework.server.JettyServer;
-import br.com.rileyframework.server.RileyServerException;
 import br.com.rileyframework.utils.SetupLoader;
+import com.riley.server.ConfigureServerAdapter;
+import com.riley.server.JettyServer;
+import com.riley.server.RileyServerException;
 import lombok.Getter;
 import lombok.Setter;
 import org.reflections.Reflections;
@@ -93,10 +93,17 @@ public class Riley {
 			this.configureServerAdapter = null;
 			throw new IllegalArgumentException("Port can not be null");
 		}
+		if (this.configureServerAdapter.servlet() == null){
+			this.configureServerAdapter = null;
+			throw new IllegalArgumentException("Servlet can not be null");
+		}
 	}
 
 	protected ConfigureServerAdapter getServerDefault() {
-		return JettyServer.builder().jettyPort(3000).build();
+		return JettyServer.builder()
+				.servlet(new RileyServlet(Riley.getInstance()))
+                .jettyPort(3000)
+                .build();
 	}
 
 	public void shutDown() throws Exception {
@@ -114,6 +121,7 @@ public class Riley {
 		Server server = new Server();
 		server.setPort(this.configureServerAdapter.port());
 		server.setIsStaterd(this.configureServerAdapter.isStarted());
+		server.setServlet(this.configureServerAdapter.servlet());
 		return server;
 	}
 
