@@ -16,7 +16,7 @@ import javax.servlet.Servlet;
 public class JettyServer implements ConfigureServerAdapter {
 
 	private static final Integer DEFAULT_PORT = 3000;
-	private Server server;
+	private Server 	server;
 	private Integer jettyPort;
 	private Servlet servlet;
 
