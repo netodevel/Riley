@@ -13,12 +13,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import static br.com.rileyframework.RileyConst.DEFAULT_BANNER;
+
 public class Riley {
+
+	private static Riley instance;
+	private String bannerText;
 
 	@Getter @Setter
 	private List<Route> routes;
 	private ConfigureServerAdapter configureServerAdapter;
-	private static Riley instance;
 	private SetupLoader setupLoader;
 
 	public static synchronized Riley getInstance(){
@@ -85,7 +89,13 @@ public class Riley {
 			this.configureServerAdapter = getServerDefault();
 		}
 		validateServer();
+		printBanner();
 		this.configureServerAdapter.start();
+	}
+
+	private void printBanner() {
+		if (bannerText != null) System.out.println(bannerText);
+		if (bannerText == null) System.out.println(DEFAULT_BANNER);
 	}
 
 	public void validateServer() {
@@ -123,6 +133,11 @@ public class Riley {
 		server.setIsStaterd(this.configureServerAdapter.isStarted());
 		server.setServlet(this.configureServerAdapter.servlet());
 		return server;
+	}
+
+	public Riley bannerText(String banner) {
+		this.bannerText = banner;
+		return this;
 	}
 
 }
