@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.Setter;
 import org.reflections.Reflections;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +21,7 @@ public class Riley {
 
 	private static Riley instance;
 	private String bannerText;
+	private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
 
 	@Getter @Setter
 	private List<Route> routes;
@@ -90,7 +93,13 @@ public class Riley {
 		}
 		validateServer();
 		printBanner();
+		System.setErr(new PrintStream(errContent));
+		System.out.println("Starting server...");
+
 		this.configureServerAdapter.start();
+		while (!this.configureServerAdapter.isStarted()) {}
+
+		System.out.println("Riley Application started in development on http://localhost:" + this.configureServerAdapter.port());
 	}
 
 	private void printBanner() {
@@ -112,8 +121,8 @@ public class Riley {
 	protected ConfigureServerAdapter getServerDefault() {
 		return JettyServer.builder()
 				.servlet(new RileyServlet(Riley.getInstance()))
-                .jettyPort(3000)
-                .build();
+				.jettyPort(3000)
+				.build();
 	}
 
 	public void shutDown() throws Exception {

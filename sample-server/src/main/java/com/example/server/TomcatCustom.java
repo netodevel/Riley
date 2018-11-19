@@ -1,11 +1,14 @@
 package com.example.server;
 
+import br.com.rileyframework.Riley;
+import br.com.rileyframework.RileyServlet;
 import com.riley.server.ConfigureServerAdapter;
 import lombok.Builder;
 import lombok.Data;
 import org.apache.catalina.Context;
 import org.apache.catalina.startup.Tomcat;
 
+import javax.servlet.Servlet;
 import java.io.File;
 
 @Data
@@ -50,6 +53,11 @@ public class TomcatCustom implements ConfigureServerAdapter {
     @Override
     public Integer port() {
         return getTomcatPort();
+    }
+
+    @Override
+    public Servlet servlet() {
+        return new RileyServlet(Riley.getInstance());
     }
 
 }
