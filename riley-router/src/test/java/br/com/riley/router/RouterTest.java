@@ -14,6 +14,7 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(Spectrum.class)
 public class RouterTest {{
+
     describe("Dado uma lista de rotas", () -> {
         List<Route> routes = new ArrayList<>();
         afterEach(routes::clear);
@@ -35,6 +36,25 @@ public class RouterTest {{
             assertEquals(1, router.routes.size());
         });
     });
+
+    describe("dado uma rota get", () -> {
+        List<Route> routes = new ArrayList<>();
+        afterEach(routes::clear);
+
+        Route route = Route.builder()
+                .method(HttpConsts.METHOD_GET)
+                .path("/")
+                .routeAction(() -> "hello world")
+                .build();
+
+        routes.add(route);
+
+        it("deve retornar o metodo get", ()-> {
+            assertEquals(HttpConsts.METHOD_GET, routes.get(0).getMethod());
+        });
+
+    });
+
 }}
 
 
