@@ -39,8 +39,6 @@ public class RouterTest {{
 
     describe("dado uma rota get", () -> {
         List<Route> routes = new ArrayList<>();
-        afterEach(routes::clear);
-
         Route route = Route.builder()
                 .method(HttpConsts.METHOD_GET)
                 .path("/")
@@ -51,6 +49,10 @@ public class RouterTest {{
 
         it("deve retornar o metodo get", ()-> {
             assertEquals(HttpConsts.METHOD_GET, routes.get(0).getMethod());
+        });
+
+        it("deve retornar hello world", ()-> {
+            assertEquals("hello world", routes.get(0).getRouteAction().execute());
         });
 
     });
