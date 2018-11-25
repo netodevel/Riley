@@ -17,4 +17,9 @@ public class Router {
         if (routeReturned.isPresent()) return routeReturned.get().getReactiveRouteAction().execute();
         return Observable.just(new RouterException());
     }
+
+    public static void get(String url, ReactiveRouteAction reactiveRouteAction) {
+
+    }
+
 }
