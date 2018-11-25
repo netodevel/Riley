@@ -10,4 +10,5 @@ public class Route {
     private String method;
     private String path;
     private RouteAction routeAction;
+    private ReactiveRouteAction reactiveRouteAction;
 }
