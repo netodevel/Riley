@@ -11,5 +11,13 @@
 
     <artifactId>riley-router</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.greghaskins</groupId>
+            <artifactId>spectrum</artifactId>
+            <version>1.2.0</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 
 </project>
