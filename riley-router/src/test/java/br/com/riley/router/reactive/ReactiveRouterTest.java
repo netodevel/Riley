@@ -1,10 +1,11 @@
-package br.com.riley.router;
+package br.com.riley.router.reactive;
 
+import br.com.riley.router.Router;
+import br.com.riley.router.RouterException;
 import com.greghaskins.spectrum.Spectrum;
 import io.reactivex.Observable;
+import org.junit.Assert;
 import org.junit.runner.RunWith;
-
-import java.util.List;
 
 import static com.greghaskins.spectrum.Spectrum.describe;
 import static com.greghaskins.spectrum.Spectrum.it;
@@ -16,16 +17,11 @@ import static org.junit.Assert.assertEquals;
 public class ReactiveRouterTest {{
 
     describe("dado uma rota reativa", () -> {
-        Route routeReact = Route.builder()
-                .method(HttpConsts.METHOD_GET)
-                .path("/index")
-                .reactiveRouteAction(() -> Observable.just("hello world"))
-                .build();
-
-        List<Route> routes = asList(routeReact);
+        Router.get("/index", ()-> Observable.just("hello world"));
 
         it("deve retornar hello world", ()-> {
-            routes.get(0).getReactiveRouteAction()
+            Router router = Router.getInstance();
+            router.routes.get(0).getReactiveRouteAction()
                     .execute()
                     .subscribe(res -> { assertEquals("hello world", res); });
         });
@@ -34,19 +30,11 @@ public class ReactiveRouterTest {{
     describe("dado uma url", () -> {
         String url = "/users";
         context("com duas rotas registradas", () -> {
-            Route routeIndex = Route.builder().method(HttpConsts.METHOD_GET)
-                    .path("/index").reactiveRouteAction(() -> Observable.just("hello world"))
-                    .build();
-
-            Route routeUsers = Route.builder().method(HttpConsts.METHOD_GET)
-                    .path("/users").reactiveRouteAction(() -> Observable.just("hello users"))
-                    .build();
-
-            List<Route> routes = asList(routeIndex, routeUsers);
+            Router.get("/index", ()-> Observable.just("hello world"));
+            Router.get("/users", ()-> Observable.just("hello users"));
 
             it("deve executar a rota '/users'", () -> {
-                Router router = new Router();
-                router.routes = routes;
+                Router router = Router.getInstance();
 
                 router.executeRequest(url).subscribe(res -> {
                     assertEquals("hello users", res);
@@ -60,11 +48,10 @@ public class ReactiveRouterTest {{
                 router.routes = asList();
 
                 router.executeRequest(url).subscribe(res -> {
-                    assertEquals(new RouterException(), res);
+                    Assert.assertEquals(new RouterException(), res);
                 });
             });
         });
-
     });
 
 }}

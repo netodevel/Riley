@@ -1,6 +1,7 @@
 package br.com.riley.router;
 
 import com.greghaskins.spectrum.Spectrum;
+import io.reactivex.Observable;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -10,12 +11,15 @@ import java.util.List;
 import static com.greghaskins.spectrum.Spectrum.afterEach;
 import static com.greghaskins.spectrum.Spectrum.describe;
 import static com.greghaskins.spectrum.Spectrum.it;
+import static com.greghaskins.spectrum.dsl.specification.Specification.context;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(Spectrum.class)
 public class RouterTest {{
 
     describe("Dado uma lista de rotas", () -> {
+        Router router = Router.getInstance();
+
         List<Route> routes = new ArrayList<>();
         afterEach(routes::clear);
 
@@ -30,7 +34,6 @@ public class RouterTest {{
                     .routeAction(() -> "action executed")
                     .build();
 
-            Router router = new Router();
             router.routes.add(route);
 
             assertEquals(1, router.routes.size());
@@ -53,6 +56,21 @@ public class RouterTest {{
 
         it("deve retornar hello world", ()-> {
             assertEquals("hello world", routes.get(0).getRouteAction().execute());
+        });
+    });
+
+    describe("Ao registrar uma rota get", ()-> {
+        Route routeMapped = Router.get("/users/{user_id}", () -> Observable.just("hello world"));
+
+        context("Com todos parametros validos", ()-> {
+            it("deve gerar o regex da rota", ()-> {
+                assertEquals("/users/\\w*", routeMapped.getRegex());
+            });
+        });
+
+        context("com url null", ()-> {
+            it("deve lancar uma RouterException", ()-> {
+            });
         });
 
     });

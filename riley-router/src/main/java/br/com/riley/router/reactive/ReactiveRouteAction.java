@@ -1,4 +1,4 @@
-package br.com.riley.router;
+package br.com.riley.router.reactive;
 
 import io.reactivex.Observable;
 
