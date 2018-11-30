@@ -1,6 +1,6 @@
 package br.com.riley.router.reactive;
 
-import br.com.riley.router.Router;
+import br.com.riley.router.RouteManager;
 import com.greghaskins.spectrum.Spectrum;
 import io.reactivex.Observable;
 import org.junit.Assert;
@@ -14,15 +14,15 @@ import static com.greghaskins.spectrum.dsl.specification.Specification.context;
 public class ReactivePathVariableTest {{
 
     describe("dado uma rota com path variable", ()-> {
-        Router.get("/users/{user_id}", ()-> Observable.just("rota mapeada"));
+        RouteManager.get("/users/{user_id}", ()-> Observable.just("rota mapeada"));
 
         context("quando executar a request", ()-> {
             it("deve fazer match com a rota mapeada", ()-> {
                 String requestedUrl = "/users/1";
 
-                Router router = Router.getInstance();
+                RouteManager routeManager = RouteManager.getInstance();
 
-                router.executeRequest(requestedUrl).subscribe(res -> {
+                routeManager.executeRequest(requestedUrl).subscribe(res -> {
                     Assert.assertEquals("rota mapeada", res);
                 });
             });

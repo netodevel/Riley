@@ -1,6 +1,6 @@
 package br.com.riley.router;
 
-import br.com.riley.router.reactive.ReactiveRouteAction;
+import br.com.riley.router.reactive.ReactiveRouterHandler;
 import lombok.Builder;
 import lombok.Data;
 
@@ -12,5 +12,5 @@ public class Route {
     private String path;
     private String regex;
     private RouteAction routeAction;
-    private ReactiveRouteAction reactiveRouteAction;
+    private ReactiveRouterHandler reactiveRouterHandler;
 }

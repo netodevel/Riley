@@ -1,6 +1,6 @@
 package br.com.riley.router.reactive;
 
-import br.com.riley.router.Router;
+import br.com.riley.router.RouteManager;
 import br.com.riley.router.RouterException;
 import com.greghaskins.spectrum.Spectrum;
 import io.reactivex.Observable;
@@ -14,14 +14,14 @@ import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(Spectrum.class)
-public class ReactiveRouterTest {{
+public class ReactiveRouteManagerTest {{
 
     describe("dado uma rota reativa", () -> {
-        Router.get("/index", ()-> Observable.just("hello world"));
+        RouteManager.get("/index", ()-> Observable.just("hello world"));
 
         it("deve retornar hello world", ()-> {
-            Router router = Router.getInstance();
-            router.routes.get(0).getReactiveRouteAction()
+            RouteManager routeManager = RouteManager.getInstance();
+            routeManager.routes.get(0).getReactiveRouterHandler()
                     .execute()
                     .subscribe(res -> { assertEquals("hello world", res); });
         });
@@ -30,13 +30,13 @@ public class ReactiveRouterTest {{
     describe("dado uma url", () -> {
         String url = "/users";
         context("com duas rotas registradas", () -> {
-            Router.get("/index", ()-> Observable.just("hello world"));
-            Router.get("/users", ()-> Observable.just("hello users"));
+            RouteManager.get("/index", ()-> Observable.just("hello world"));
+            RouteManager.get("/users", ()-> Observable.just("hello users"));
 
             it("deve executar a rota '/users'", () -> {
-                Router router = Router.getInstance();
+                RouteManager routeManager = RouteManager.getInstance();
 
-                router.executeRequest(url).subscribe(res -> {
+                routeManager.executeRequest(url).subscribe(res -> {
                     assertEquals("hello users", res);
                 });
             });
@@ -44,10 +44,10 @@ public class ReactiveRouterTest {{
 
         context("nao encontrada", ()-> {
             it("deve retornar RouterException", () -> {
-                Router router = new Router();
-                router.routes = asList();
+                RouteManager routeManager = new RouteManager();
+                routeManager.routes = asList();
 
-                router.executeRequest(url).subscribe(res -> {
+                routeManager.executeRequest(url).subscribe(res -> {
                     Assert.assertEquals(new RouterException(), res);
                 });
             });

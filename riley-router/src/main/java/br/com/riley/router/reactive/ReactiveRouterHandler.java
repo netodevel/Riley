@@ -2,7 +2,7 @@ package br.com.riley.router.reactive;
 
 import io.reactivex.Observable;
 
-public interface ReactiveRouteAction<T> {
+public interface ReactiveRouterHandler<T> {
 
     Observable<T> execute();
 }

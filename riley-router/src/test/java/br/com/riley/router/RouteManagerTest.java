@@ -2,7 +2,6 @@ package br.com.riley.router;
 
 import com.greghaskins.spectrum.Spectrum;
 import io.reactivex.Observable;
-import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
@@ -15,10 +14,10 @@ import static com.greghaskins.spectrum.dsl.specification.Specification.context;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(Spectrum.class)
-public class RouterTest {{
+public class RouteManagerTest {{
 
     describe("Dado uma lista de rotas", () -> {
-        Router router = Router.getInstance();
+        RouteManager routeManager = RouteManager.getInstance();
 
         List<Route> routes = new ArrayList<>();
         afterEach(routes::clear);
@@ -34,9 +33,9 @@ public class RouterTest {{
                     .routeAction(() -> "action executed")
                     .build();
 
-            router.routes.add(route);
+            routeManager.routes.add(route);
 
-            assertEquals(1, router.routes.size());
+            assertEquals(1, routeManager.routes.size());
         });
     });
 
@@ -60,7 +59,7 @@ public class RouterTest {{
     });
 
     describe("Ao registrar uma rota get", ()-> {
-        Route routeMapped = Router.get("/users/{user_id}", () -> Observable.just("hello world"));
+        Route routeMapped = RouteManager.get("/users/{user_id}", () -> Observable.just("hello world"));
 
         context("Com todos parametros validos", ()-> {
             it("deve gerar o regex da rota", ()-> {
