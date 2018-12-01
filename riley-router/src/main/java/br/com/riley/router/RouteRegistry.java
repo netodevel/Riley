@@ -2,6 +2,7 @@ package br.com.riley.router;
 
 import br.com.riley.router.reactive.ReactiveRouterHandler;
 import lombok.Data;
+import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,9 +10,10 @@ import java.util.List;
 @Data
 public class RouteRegistry {
 
-    private List<Route> routes = new ArrayList<>();
+    @Getter
+    public static List<Route> routes = new ArrayList<>();
 
-    public void get(String url, ReactiveRouterHandler routerHandler) {
+    public static void get(String url, ReactiveRouterHandler routerHandler) {
         Route route = Route.builder()
                 .regex(RegexHelper.generatorRegexFromUrl(url))
                 .path(url)
@@ -19,7 +21,7 @@ public class RouteRegistry {
                 .method(HttpConsts.METHOD_GET)
                 .build();
 
-        this.routes.add(route);
+        routes.add(route);
     }
 
 }
