@@ -11,6 +11,6 @@ public class Route {
     private String method;
     private String path;
     private String regex;
-    private RouteAction routeAction;
+    private RouteHandler routeHandler;
     private ReactiveRouterHandler reactiveRouterHandler;
 }

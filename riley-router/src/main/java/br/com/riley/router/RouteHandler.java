@@ -1,6 +1,6 @@
 package br.com.riley.router;
 
-public interface RouteAction<T> {
+public interface RouteHandler<T> {
 
     T execute();
 }

@@ -7,12 +7,20 @@ import lombok.Getter;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Classe responsável por registrar rotas
+ */
 @Data
 public class RouteRegistry {
 
     @Getter
     public static List<Route> routes = new ArrayList<>();
 
+    /**
+     * Metodo responsável por registrar uma rota GET
+     * @param url
+     * @param routerHandler
+     */
     public static void get(String url, ReactiveRouterHandler routerHandler) {
         Route route = Route.builder()
                 .regex(RegexHelper.generatorRegexFromUrl(url))
@@ -22,6 +30,10 @@ public class RouteRegistry {
                 .build();
 
         routes.add(route);
+    }
+
+    public static void clearRoutes() {
+        routes.clear();
     }
 
 }
