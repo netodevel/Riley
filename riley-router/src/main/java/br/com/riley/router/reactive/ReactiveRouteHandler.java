@@ -4,5 +4,5 @@ import io.reactivex.Observable;
 
 public interface ReactiveRouteHandler<T> {
 
-    Observable<T> execute();
+    Observable<T> execute(RouterContext routerContext);
 }

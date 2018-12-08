@@ -16,7 +16,7 @@ public class ReactivePathVariableTest {{
 
     describe("dado uma rota com path variable", ()-> {
         RouteRegistry routeRegistry = new RouteRegistry();
-        routeRegistry.get("/users/{user_id}", ()-> Observable.just("rota mapeada"));
+        routeRegistry.get("/users/{user_id}", (ctx)-> Observable.just("rota mapeada"));
 
         context("quando executar a request", ()-> {
             it("deve fazer match com a rota mapeada", ()-> {

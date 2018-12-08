@@ -5,7 +5,7 @@ import static br.com.riley.router.RouteRegistry.get;
 
 public class SampleRouter {{
 
-    get("/index", () -> {
+    get("/index", (ctx) -> {
         return Observable.just("");
     });
 

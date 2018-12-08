@@ -21,9 +21,9 @@ public class ReactiveRouteManagerTest {{
 
         it("deve retornar hello world", ()-> {
             routeRegistry.clearRoutes();
-            routeRegistry.get("/index", ()-> Observable.just("hello world"));
+            routeRegistry.get("/index", (ctx)-> Observable.just("hello world"));
             routeRegistry.getRoutes().get(0).getReactiveRouteHandler()
-                    .execute()
+                    .execute(RouterContext.builder().build())
                     .subscribe(res -> { assertEquals("hello world", res); });
         });
     });
@@ -35,12 +35,11 @@ public class ReactiveRouteManagerTest {{
 
         context("com duas rotas registradas", () -> {
             routeRegistry.clearRoutes();
-            routeRegistry.get("/index", ()-> Observable.just("hello world"));
-            routeRegistry.get("/users", ()-> Observable.just("hello world"));
+            routeRegistry.get("/index", (ctx)-> Observable.just("hello world"));
+            routeRegistry.get("/users", (ctx)-> Observable.just("hello world"));
 
             it("deve executar a rota '/users'", () -> {
                 RouteManager routeManager = new RouteManager(routeRegistry);
-
                 routeManager.executeRequest(url).subscribe(res -> {
                     assertEquals("hello users", res);
                 });

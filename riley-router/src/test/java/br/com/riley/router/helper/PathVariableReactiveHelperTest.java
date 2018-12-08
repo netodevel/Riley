@@ -3,6 +3,9 @@ package br.com.riley.router.helper;
 import br.com.riley.router.reactive.PathVariableReactive;
 import org.junit.Test;
 
+import java.util.List;
+
+import static java.util.Arrays.asList;
 import static junit.framework.TestCase.*;
 
 public class PathVariableReactiveHelperTest {
@@ -12,9 +15,10 @@ public class PathVariableReactiveHelperTest {
     @Test
     public void dadoUmaRotaComUmaVariavel_deveRetornaAMesma() {
         String url = "/users/{user_id}";
-        pathVariableReactive.getParams(url).subscribe( params -> {
-            assertEquals(params.get(0), "{user_id}");
-        });
+
+        List<String> paramsExpected = asList("{user_id}");
+        pathVariableReactive.getParams(url).test().assertSubscribed()
+                .assertValue(paramsExpected).assertComplete().assertNoErrors();
     }
 
     @Test

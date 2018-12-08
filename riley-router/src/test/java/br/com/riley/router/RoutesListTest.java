@@ -18,7 +18,7 @@ public class RoutesListTest {
     public void deveRetornarUmaRotaRegistrada() {
         RouteRegistry routeRegistry = new RouteRegistry();
         routeRegistry.clearRoutes();
-        routeRegistry.get("", ()-> Observable.just("hello"));
+        routeRegistry.get("", (ctx)-> Observable.just("hello"));
         assertEquals(1, routeRegistry.routes.size());
     }
 

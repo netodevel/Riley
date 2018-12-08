@@ -1,5 +1,6 @@
 package br.com.riley.router;
 
+import br.com.riley.router.reactive.RouterContext;
 import io.reactivex.Observable;
 import lombok.NoArgsConstructor;
 
@@ -17,11 +18,18 @@ public class RouteManager {
     }
 
     public Observable<?> executeRequest(String url) {
-        Optional<Route> routeReturned = routeRegistry.getRoutes().stream()
+        Optional<RouterContext> routeReturned = routeRegistry.getRoutes().stream()
                 .filter(route -> matchUrl(route.getRegex(), url))
+                .map(route -> buildRouterCtx(route))
                 .findFirst();
-        if (routeReturned.isPresent()) return routeReturned.get().getReactiveRouteHandler().execute();
+
+        if (routeReturned.isPresent()) return routeReturned.get().getReactiveRouteHandler().execute(routeReturned.get());
         return Observable.just(new RouterException());
+    }
+
+    private RouterContext buildRouterCtx(Route route) {
+        return RouterContext.builder()
+                .build();
     }
 
 }
