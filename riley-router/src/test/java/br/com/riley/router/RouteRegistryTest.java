@@ -5,7 +5,6 @@ import com.greghaskins.spectrum.Spectrum;
 import io.reactivex.Observable;
 import org.junit.runner.RunWith;
 
-import static com.greghaskins.spectrum.Spectrum.afterEach;
 import static com.greghaskins.spectrum.Spectrum.describe;
 import static com.greghaskins.spectrum.Spectrum.it;
 import static org.junit.Assert.assertEquals;
@@ -44,7 +43,7 @@ public class RouteRegistryTest {{
             routeRegistry.clearRoutes();
             routeRegistry.get("/user/{user_id}", ()-> Observable.just("return"));
 
-            Observable<String> response = routeRegistry.routes.get(0).getReactiveRouterHandler().execute();
+            Observable<String> response = routeRegistry.routes.get(0).getReactiveRouteHandler().execute();
 
             response.subscribe(res -> {
                 assertEquals("return", res);

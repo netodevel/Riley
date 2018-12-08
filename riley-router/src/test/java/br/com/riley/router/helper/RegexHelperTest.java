@@ -1,5 +1,6 @@
-package br.com.riley.router;
+package br.com.riley.router.helper;
 
+import br.com.riley.router.helper.RegexHelper;
 import com.greghaskins.spectrum.Spectrum;
 import org.junit.runner.RunWith;
 

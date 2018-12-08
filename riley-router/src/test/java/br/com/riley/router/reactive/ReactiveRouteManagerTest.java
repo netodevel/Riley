@@ -8,11 +8,9 @@ import io.reactivex.Observable;
 import org.junit.Assert;
 import org.junit.runner.RunWith;
 
-import static com.greghaskins.spectrum.Spectrum.afterEach;
 import static com.greghaskins.spectrum.Spectrum.describe;
 import static com.greghaskins.spectrum.Spectrum.it;
 import static com.greghaskins.spectrum.dsl.specification.Specification.context;
-import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(Spectrum.class)
@@ -24,7 +22,7 @@ public class ReactiveRouteManagerTest {{
         it("deve retornar hello world", ()-> {
             routeRegistry.clearRoutes();
             routeRegistry.get("/index", ()-> Observable.just("hello world"));
-            routeRegistry.getRoutes().get(0).getReactiveRouterHandler()
+            routeRegistry.getRoutes().get(0).getReactiveRouteHandler()
                     .execute()
                     .subscribe(res -> { assertEquals("hello world", res); });
         });

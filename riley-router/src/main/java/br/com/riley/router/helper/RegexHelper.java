@@ -1,4 +1,4 @@
-package br.com.riley.router;
+package br.com.riley.router.helper;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

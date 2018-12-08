@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.Optional;
 
-import static br.com.riley.router.RegexHelper.matchUrl;
+import static br.com.riley.router.helper.RegexHelper.matchUrl;
 
 @NoArgsConstructor
 public class RouteManager {
@@ -20,7 +20,7 @@ public class RouteManager {
         Optional<Route> routeReturned = routeRegistry.getRoutes().stream()
                 .filter(route -> matchUrl(route.getRegex(), url))
                 .findFirst();
-        if (routeReturned.isPresent()) return routeReturned.get().getReactiveRouterHandler().execute();
+        if (routeReturned.isPresent()) return routeReturned.get().getReactiveRouteHandler().execute();
         return Observable.just(new RouterException());
     }
 
