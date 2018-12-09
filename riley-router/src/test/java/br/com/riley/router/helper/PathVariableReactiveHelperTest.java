@@ -45,4 +45,17 @@ public class PathVariableReactiveHelperTest {
         });
     }
 
+    @Test
+    public void dadoUmaUrl_deveRetornarOsParametros() {
+        String url = "/users/{user_id}";
+        String contextPath = "/users/1";
+
+        pathVariableReactive.param(url, contextPath).subscribe( value -> {
+            System.out.println(value.get("{user_id}"));
+        });
+    }
+
 }
+
+
+
