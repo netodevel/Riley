@@ -1,25 +1,10 @@
 package br.com.rileyframework.sample;
 
-import br.com.rileyframework.Request;
-import br.com.rileyframework.Resource;
-import br.com.rileyframework.Response;
+import io.reactivex.Observable;
 
-public class HelloWorldController extends Resource {
+import static br.com.riley.router.RouteRegistry.get;
 
-    {
-        get("/", new HttpHandlerRequest() {
-            @Override
-            public Response handler(Request req, Response res) {
-                return res.json("hello world").status(200);
-            }
-        });
+public class HelloWorldController {{
 
-        get("/home", new HttpHandlerRequest() {
-            @Override
-            public Response handler(Request request, Response response) {
-                return response.json("home").status(200);
-            }
-        });
-    }
-
-}
+    get("/index", (ctx) -> Observable.just("hello world"));
+}}

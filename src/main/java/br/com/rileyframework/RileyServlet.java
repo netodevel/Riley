@@ -9,9 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static br.com.rileyframework.helpers.RequestHelper.getBodyRequest;
-import static br.com.rileyframework.helpers.RequestHelper.matchUrl;
-
 public class RileyServlet extends HttpServlet {
 
 	private Riley riley;
@@ -65,14 +62,9 @@ public class RileyServlet extends HttpServlet {
 
 	private void doProcess(HttpServletRequest req, HttpServletResponse resp) throws Exception {
 		final String servletPath = req.getServletPath();
-		for (Route route : riley.getRoutes()) {
-			if (matchUrl(route.getRouteRegex(), servletPath)) {
-				Request request = httpVerbProcessor.execute(route.getHttpMethod(), servletPath, route, getBodyRequest(req));
 
-				if (route.getType() == null && route.getType() != "HTML") httpVerbProcessor.makeResponse(route, request, req, resp);
-				if (route.getType() != null && route.getType() == "HTML") httpVerbProcessor.makeResponseHtml(route, request, req, resp);
-			}
-		}
+		System.out.println(servletPath);
+		riley.routeRegistry.routes.forEach(System.out::println);
 	}
 
 }
