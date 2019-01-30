@@ -9,6 +9,6 @@ import java.util.HashMap;
 @Builder
 public class RouterContext {
 
-    private HashMap<String, String> params;
+    public HashMap<String, String> params;
     private ReactiveRouteHandler reactiveRouteHandler;
 }
