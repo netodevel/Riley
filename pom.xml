@@ -9,6 +9,7 @@
         <module>sample-server</module>
         <module>riley-server</module>
         <module>riley-router</module>
+        <module>riley-core</module>
     </modules>
 
     <properties>
