@@ -34,12 +34,6 @@ ____       ____  _ __
 /_/_/  /_/ |_/_/_/\___/\__, /      
                       /____/       
 
-2018-11-18 12:14:32.103:INFO::main: Logging initialized @589ms to org.eclipse.jetty.util.log.StdErrLog
-2018-11-18 12:14:32.514:INFO:oejs.Server:main: jetty-9.4.0.v20161208
-2018-11-18 12:14:32.644:INFO:oejs.session:main: DefaultSessionIdManager workerName=node0
-2018-11-18 12:14:32.644:INFO:oejs.session:main: No SessionScavenger set, using defaults
-2018-11-18 12:14:32.654:INFO:oejs.session:main: Scavenging every 660000ms
-2018-11-18 12:14:32.698:INFO:oejsh.ContextHandler:main: Started o.e.j.s.ServletContextHandler@6aaa5eb0{/,null,AVAILABLE}
-2018-11-18 12:14:32.942:INFO:oejs.AbstractConnector:main: Started ServerConnector@662f4769{HTTP/1.1,[http/1.1]}{0.0.0.0:3000}
-2018-11-18 12:14:32.943:INFO:oejs.Server:main: Started @1432ms
+Starting server...
+Riley Application started in development on http://localhost:3000
 ```
