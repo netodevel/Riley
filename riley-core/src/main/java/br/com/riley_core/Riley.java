@@ -9,26 +9,39 @@ import com.riley.server.ConfigureServerAdapter;
 import com.riley.server.JettyServer;
 import com.riley.server.RileyServerException;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
+import static br.com.riley_core.RileyOutput.DEFAULT_BANNER;
 
 public class Riley {
 
-	public static final String DEFAULT_BANNER = "\n" +
-			"____       ____  _ __              \n" +
-			"\\ \\ \\     / __ \\(_) /__  __  __    \n" +
-			" \\ \\ \\   / /_/ / / / _ \\/ / / /    \n" +
-			" / / /  / _, _/ / /  __/ /_/ /     \n" +
-			"/_/_/  /_/ |_/_/_/\\___/\\__, /      \n" +
-			"                      /____/       \n";
-
+	/**
+	 * Manager Routes
+	 */
 	public static RouteManager routeManager = new RouteManager();
+
+	/**
+	 * Register Routes
+	 */
 	public static RouteRegistry routeRegistry = new RouteRegistry();
+
+	/**
+	 * Singleton instance of Riley
+	 */
 	private static Riley instance;
 
+	/**
+	 * Attribute to custom/default banner
+	 */
 	private String bannerText;
-	private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
+
+	/**
+	 * Boundary to http server
+	 */
 	private ConfigureServerAdapter configureServerAdapter;
+
+	/**
+	 * Riley Output
+	 */
+	private RileyOutput rileyOutput = new RileyOutput();
 
 	public static synchronized Riley getInstance(){
 		if (instance == null){
@@ -42,6 +55,7 @@ public class Riley {
 	}
 
 	public void registerRoutes() {
+		//TODO: Ler todos controllers
 		HelloWorldController helloWorldController = new HelloWorldController();
 	}
 
@@ -49,16 +63,18 @@ public class Riley {
 		if (this.configureServerAdapter == null) {
 			this.configureServerAdapter = getServerDefault();
 		}
+
 		validateServer();
 		printBanner();
-		System.setErr(new PrintStream(errContent));
-		System.out.println("Starting server...");
+		rileyOutput.captureOutput();
 
 		this.configureServerAdapter.start();
-		while (!this.configureServerAdapter.isStarted()) {}
 
+		while (!this.configureServerAdapter.isStarted()) {
+		}
+
+		System.out.println("done!");
 		System.out.println("Riley Application started in development on http://localhost:" + this.configureServerAdapter.port());
-
 		registerRoutes();
 	}
 
@@ -97,11 +113,11 @@ public class Riley {
 	}
 
 	public Server getServer() {
-		Server server = new Server();
-		server.setPort(this.configureServerAdapter.port());
-		server.setIsStaterd(this.configureServerAdapter.isStarted());
-		server.setServlet(this.configureServerAdapter.servlet());
-		return server;
+		return Server.builder()
+				.port(this.configureServerAdapter.port())
+				.isStaterd(this.configureServerAdapter.isStarted())
+				.servlet(this.configureServerAdapter.servlet())
+				.build();
 	}
 
 	public Riley bannerText(String banner) {
