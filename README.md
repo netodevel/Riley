@@ -19,8 +19,8 @@ public class RileyApplication {
 
 ```java
 public class HelloWorldController {{
-    get("/index", (ctx) -> Observable.just("hello world"));
-    get("/user/{user_id}", (ctx) -> Observable.just(ctx.params.get("{user_id}")));
+    get("/index", (ctx) -> json("hello world"));
+    get("/user/{user_id}", (ctx) -> json(ctx.params.get("{user_id}")));
 }}
 ```
 #### Output
