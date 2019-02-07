@@ -23,3 +23,17 @@ public class HelloWorldController {{
     get("/user/{user_id}", (ctx) -> Observable.just(ctx.params.get("{user_id}")));
 }}
 ```
+#### Output
+```
+____       ____  _ __              
+\ \ \     / __ \(_) /__  __  __    
+ \ \ \   / /_/ / / / _ \/ / / /    
+ / / /  / _, _/ / /  __/ /_/ /     
+/_/_/  /_/ |_/_/_/\___/\__, /      
+                      /____/       
+
+[INFO] Starting server...
+[INFO] Riley Application started in development on http://localhost:3000
+[INFO] Registered Route: GET /index
+[INFO] Registered Route: GET /user/{user_id}
+```
