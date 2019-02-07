@@ -1,15 +1,15 @@
 package br.com.riley_core;
 
 import br.com.riley.router.RouteManager;
-import br.com.riley.router.RouteRegistry;
 import br.com.riley_core.domain.Server;
+import br.com.riley_core.output.RileyOutput;
 import br.com.riley_core.sample.HelloWorldController;
 import br.com.riley_core.servlet.RileyServlet;
 import com.riley.server.ConfigureServerAdapter;
 import com.riley.server.JettyServer;
 import com.riley.server.RileyServerException;
 
-import static br.com.riley_core.RileyOutput.DEFAULT_BANNER;
+import static br.com.riley_core.output.RileyOutput.DEFAULT_BANNER;
 
 public class Riley {
 
@@ -17,11 +17,6 @@ public class Riley {
 	 * Manager Routes
 	 */
 	public static RouteManager routeManager = new RouteManager();
-
-	/**
-	 * Register Routes
-	 */
-	public static RouteRegistry routeRegistry = new RouteRegistry();
 
 	/**
 	 * Singleton instance of Riley
@@ -56,7 +51,7 @@ public class Riley {
 
 	public void registerRoutes() {
 		//TODO: Ler todos controllers
-		HelloWorldController helloWorldController = new HelloWorldController();
+		new HelloWorldController();
 	}
 
 	public void start() throws Exception {
@@ -72,9 +67,7 @@ public class Riley {
 
 		while (!this.configureServerAdapter.isStarted()) {
 		}
-
-		System.out.println("done!");
-		System.out.println("Riley Application started in development on http://localhost:" + this.configureServerAdapter.port());
+		System.out.println("[INFO] Riley Application started in development on http://localhost:" + this.configureServerAdapter.port());
 		registerRoutes();
 	}
 

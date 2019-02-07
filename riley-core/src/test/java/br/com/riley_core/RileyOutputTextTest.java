@@ -12,7 +12,7 @@ import static org.junit.Assert.assertEquals;
 
 //TODO: descobrir como testar output
 @Ignore
-public class RileyOutoutTextTest {
+public class RileyOutputTextTest {
 
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private final PrintStream originalOut = System.out;
@@ -37,7 +37,9 @@ public class RileyOutoutTextTest {
     @Test
     public void deve_exibir_banner_default() throws Exception {
         riley.start();
+
         assertEquals(DEFAULT_OUTPUT.trim(), outContent.toString().trim());
+
         riley.shutDown();
     }
 

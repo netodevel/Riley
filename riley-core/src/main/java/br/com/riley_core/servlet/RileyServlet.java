@@ -60,9 +60,7 @@ public class RileyServlet extends HttpServlet {
 
 	private void doProcess(HttpServletRequest req, HttpServletResponse resp) throws Exception {
 		final String servletPath = req.getServletPath();
-		riley.routeManager.executeRequest(servletPath).subscribe(response -> {
-			resp.getWriter().print(response);
-		});
+		riley.routeManager.executeRequest(servletPath).subscribe(response -> resp.getWriter().print(response));
 	}
 
 }

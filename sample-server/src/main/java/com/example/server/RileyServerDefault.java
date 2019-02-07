@@ -1,6 +1,7 @@
 package com.example.server;
 
-import br.com.rileyframework.Riley;
+
+import br.com.riley_core.Riley;
 
 public class RileyServerDefault {
 

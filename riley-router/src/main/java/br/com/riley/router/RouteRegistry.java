@@ -31,6 +31,8 @@ public class RouteRegistry {
                 .build();
 
         routes.add(route);
+
+        System.out.println("[INFO] Registered Route: ".concat(HttpConsts.METHOD_GET).concat(" ").concat(url));
     }
 
     public static void clearRoutes() {

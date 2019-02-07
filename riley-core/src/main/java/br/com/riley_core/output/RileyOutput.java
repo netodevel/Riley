@@ -1,4 +1,4 @@
-package br.com.riley_core;
+package br.com.riley_core.output;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -17,7 +17,7 @@ public class RileyOutput {
 
     public void captureOutput() {
         System.setErr(new PrintStream(errContent));
-        System.out.println("Starting server...");
+        System.out.println("[INFO] Starting server...");
     }
 
 }

@@ -1,7 +1,7 @@
 package com.example.server;
 
-import br.com.rileyframework.Riley;
-import br.com.rileyframework.RileyServlet;
+import br.com.riley_core.Riley;
+import br.com.riley_core.servlet.RileyServlet;
 import com.riley.server.ConfigureServerAdapter;
 import lombok.Builder;
 import lombok.Data;
