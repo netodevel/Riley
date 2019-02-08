@@ -3,11 +3,12 @@ package br.com.riley_core;
 import br.com.riley.router.RouteManager;
 import br.com.riley_core.domain.Server;
 import br.com.riley_core.output.RileyOutput;
-import br.com.riley_core.sample.HelloWorldController;
 import br.com.riley_core.servlet.RileyServlet;
 import com.riley.server.ConfigureServerAdapter;
 import com.riley.server.JettyServer;
 import com.riley.server.RileyServerException;
+
+import java.util.List;
 
 import static br.com.riley_core.output.RileyOutput.DEFAULT_BANNER;
 
@@ -51,10 +52,10 @@ public class Riley {
 
 	public void registerRoutes() {
 		//TODO: Ler todos controllers
-		new HelloWorldController();
+		//new HelloWorldController();
 	}
 
-	public void start() throws Exception {
+	public Riley start() throws Exception {
 		if (this.configureServerAdapter == null) {
 			this.configureServerAdapter = getServerDefault();
 		}
@@ -68,7 +69,8 @@ public class Riley {
 		while (!this.configureServerAdapter.isStarted()) {
 		}
 		System.out.println("[INFO] Riley Application started in development on http://localhost:" + this.configureServerAdapter.port());
-		registerRoutes();
+
+		return this;
 	}
 
 	private void printBanner() {
@@ -115,6 +117,11 @@ public class Riley {
 
 	public Riley bannerText(String banner) {
 		this.bannerText = banner;
+		return this;
+	}
+
+	public Riley registerControllers(List<Object> controllers) {
+		//AutoMagic...
 		return this;
 	}
 
