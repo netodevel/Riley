@@ -3,8 +3,7 @@ package br.com.riley_core.sample;
 import static br.com.riley.router.RouteRegistry.get;
 import static br.com.riley.router.RouteResponse.json;
 
-public class HelloWorldController {
-    {
+public class HelloWorldController {{
 
         get("/index", (ctx) -> json("hello world"));
 
@@ -16,7 +15,4 @@ public class HelloWorldController {
 
             return json("user_id: ".concat(userId).concat(" comments_id: ").concat(commentsId));
         });
-
-    }
-
-}
+}}
