@@ -4,7 +4,6 @@ import static br.com.riley.router.RouteRegistry.get;
 import static br.com.riley.router.RouteResponse.json;
 
 public class HelloWorldController {{
-
         get("/index", (ctx) -> json("hello world"));
 
         get("/user/{user_id}", (ctx) -> json(ctx.params.get("{user_id}")));
