@@ -7,7 +7,6 @@ Esse repositório tem como objetivo criar um framework para aprendizado e pratic
 
 ### Quick Start
 
-
 ```java
 public class RileyApplication {
     public static void main(String[] args) throws Exception {
@@ -16,6 +15,17 @@ public class RileyApplication {
 }
 ```
 #### Hello World
+
+```java
+public class RileyApplication {
+    public static void main(String[] args) throws Exception {
+        Riley.getInstance().start();
+        get("/index", (ctx) -> json("Hello World"));
+    }
+}
+```
+
+#### Other way
 
 ```java
 public class HelloWorldController {{

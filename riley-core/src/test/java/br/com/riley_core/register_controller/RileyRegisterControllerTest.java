@@ -13,7 +13,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import static java.util.Arrays.asList;
+import static br.com.riley.router.RouteRegistry.get;
+import static br.com.riley.router.RouteResponse.json;
 import static org.junit.Assert.assertEquals;
 
 public class RileyRegisterControllerTest {
@@ -27,7 +28,7 @@ public class RileyRegisterControllerTest {
 
     @Test
     public void deveRetornar200() throws IOException {
-        this.riley.registerControllers(asList(new TestHelloWorldController()));
+        get("/index", (ctx) -> json("Hello World"));
 
         HttpClient httpClient = HttpClientBuilder.create().build();
         HttpGet request = new HttpGet("http://localhost:3000/index");
@@ -37,7 +38,7 @@ public class RileyRegisterControllerTest {
 
     @Test
     public void deveRetornarHelloWorld() throws IOException {
-        this.riley.registerControllers(asList(new TestHelloWorldController()));
+        get("/index", (ctx) -> json("Hello World"));
 
         HttpClient httpClient = HttpClientBuilder.create().build();
         HttpGet request = new HttpGet("http://localhost:3000/index");
@@ -49,6 +50,7 @@ public class RileyRegisterControllerTest {
         while ((json = rd.readLine()) != null) {
             result.append(json);
         }
+
         assertEquals("Hello World", result.toString());
     }
 

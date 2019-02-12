@@ -8,8 +8,6 @@ import com.riley.server.ConfigureServerAdapter;
 import com.riley.server.JettyServer;
 import com.riley.server.RileyServerException;
 
-import java.util.List;
-
 import static br.com.riley_core.output.RileyOutput.DEFAULT_BANNER;
 
 public class Riley {
@@ -48,11 +46,6 @@ public class Riley {
 
 	public void configureServer(ConfigureServerAdapter configureServerAdapter) {
 		this.configureServerAdapter = configureServerAdapter;
-	}
-
-	public void registerRoutes() {
-		//TODO: Ler todos controllers
-		//new HelloWorldController();
 	}
 
 	public Riley start() throws Exception {
@@ -119,10 +112,4 @@ public class Riley {
 		this.bannerText = banner;
 		return this;
 	}
-
-	public Riley registerControllers(List<Object> controllers) {
-		//AutoMagic...
-		return this;
-	}
-
 }
